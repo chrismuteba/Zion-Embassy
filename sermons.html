@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sermons & Messages - The Ekklesia Zion Embassy</title>
+    <meta name="description" content="Watch and listen to inspiring sermons and biblical teachings from The Ekklesia Zion Embassy. Grow in your faith with our message library.">
+    
+    <!-- External CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/styles.css">
+    
+    <style>
+        /* Live Banner Styles */
+        .live-banner {
+            background: linear-gradient(135deg, #dc2626, #ef4444);
+            color: white;
+            padding: 1rem;
+            position: sticky;
+            top: 70px;
+            z-index: 999;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .live-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+        
+        .live-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .live-dot {
+            width: 12px;
+            height: 12px;
+            background: white;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        
+        .live-text {
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        
+        .live-info h3 {
+            margin: 0;
+            font-size: 1.2rem;
+        }
+        
+        .live-info p {
+            margin: 0;
+            opacity: 0.9;
+        }
+        
+        .live-btn {
+            background: white !important;
+            color: #dc2626 !important;
+            border: none !important;
+        }
+        
+        .live-btn:hover {
+            background: #f3f4f6 !important;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        /* YouTube Sermon Styles */
+        .sermon-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+        
+        .sermon-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .sermon-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .sermon-thumbnail {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            background: #000;
+            overflow: hidden;
+        }
+        
+        .sermon-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .play-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: rgba(212, 175, 55, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .play-overlay:hover {
+            background: var(--secondary);
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+        
+        .duration-badge {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+        }
+        
+        .sermon-content {
+            padding: 1.5rem;
+        }
+        
+        .sermon-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+        
+        .sermon-meta {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            font-size: 0.875rem;
+            color: var(--secondary);
+        }
+        
+        .sermon-description {
+            color: var(--dark-gray);
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+        
+        .sermon-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .sermon-watch-btn,
+        .sermon-share-btn {
+            flex: 1;
+            text-align: center;
+        }
+        
+        /* Search and Filter Styles */
+        .search-bar {
+            max-width: 500px;
+            margin: 0 auto 2rem;
+            position: relative;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 1rem 1rem 1rem 3rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 50px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9ca3af;
+        }
+        
+        .sermon-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            justify-content: center;
+        }
+        
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--primary);
+            background: transparent;
+            color: var(--primary);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-btn.active,
+        .filter-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        /* Sermon Modal Styles */
+        .sermon-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .sermon-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .sermon-modal .modal-content {
+            background: white;
+            border-radius: 12px;
+            max-width: 90vw;
+            max-height: 90vh;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .sermon-modal .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .sermon-modal .modal-body {
+            padding: 1.5rem;
+        }
+        
+        .youtube-embed {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 56.25%;
+            margin-bottom: 1rem;
+        }
+        
+        .youtube-embed iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .sermon-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+        
+        /* Error and Loading States */
+        .error-message {
+            text-align: center;
+            padding: 2rem;
+            color: #dc2626;
+            background: #fee2e2;
+            border-radius: 8px;
+            margin: 2rem 0;
+        }
+        
+        .loading-spinner {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+        }
+        
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #e5e7eb;
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Notification Styles */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            color: white;
+            font-weight: 500;
+            z-index: 3000;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        .notification.success {
+            background-color: #10b981;
+        }
+        
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .live-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 0.5rem;
+            }
+            
+            .sermon-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .sermon-filters {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body class="bg-white text-gray-800">
+    <!-- Header/Navigation -->
+    <header class="header">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-church text-white"></i>
+                </div>
+                <div class="logo-text">
+                    <h1 class="heading-font">The Ekklesia</h1>
+                    <p>Zion Embassy</p>
+                </div>
+            </a>
+            
+            <nav class="nav-menu">
+                <div class="nav-item">
+                    <a href="index.html" class="nav-link">Home</a>
+                </div>
+                <div class="nav-item">
+                    <a href="#" class="nav-link">
+                        About <i class="fas fa-chevron-down text-xs"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <a href="about.html" class="dropdown-link">Our Story</a>
+                        <a href="about.html#mission" class="dropdown-link">Mission & Vision</a>
+                        <a href="about.html#beliefs" class="dropdown-link">Our Beliefs</a>
+                        <a href="about.html#leadership" class="dropdown-link">Leadership</a>
+                    </div>
+                </div>
+                <div class="nav-item">
+                    <a href="sermons.html" class="nav-link">Messages</a>
+                </div>
+                <div class="nav-item">
+                    <a href="events.html" class="nav-link">Events</a>
+                </div>
+                <div class="nav-item">
+                    <a href="ministries.html" class="nav-link">Ministries</a>
+                </div>
+                <div class="nav-item">
+                    <a href="blog.html" class="nav-link">News</a>
+                </div>
+                <div class="nav-item">
+                    <a href="contact.html" class="nav-link">Contact</a>
+                </div>
+                <div class="nav-item">
+                    <a href="give.html" class="nav-link btn btn-primary" style="padding: 0.5rem 1rem; border-radius: 25px;">Give</a>
+                </div>
+            </nav>
+            
+            <button class="mobile-menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <section class="bg-primary text-white py-20">
+        <div class="container">
+            <div class="text-center animate-on-load">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4 heading-font">Sermons & Messages</h1>
+                <p class="text-xl max-w-3xl mx-auto">
+                    Be inspired and grow in your faith through our collection of biblical teachings and powerful messages.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Sermon Section removed -->
+
+    <!-- Search and Filter Section -->
+    <section class="section bg-gray-50">
+        <div class="container">
+            <!-- Search Bar -->
+            <div class="search-bar">
+                <div class="relative">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" id="sermon-search" class="search-input" placeholder="Search sermons by title, speaker, or topic...">
+                </div>
+            </div>
+            
+            <!-- Filter Buttons -->
+            <div class="sermon-filters">
+                <button class="filter-btn active" data-filter="all">All Messages</button>
+                <button class="filter-btn" data-filter="recent">Recent</button>
+                <button class="filter-btn" data-filter="series">Sermon Series</button>
+                <button class="filter-btn" data-filter="pastor-emmanuel">Pastor Emmanuel</button>
+                <button class="filter-btn" data-filter="minister-sarah">Minister Sarah</button>
+                <button class="filter-btn" data-filter="special">Special Events</button>
+            </div>
+            
+            <!-- Sermon Grid -->
+            <div class="sermon-grid" id="sermon-grid">
+                <div class="max-w-4xl mx-auto text-center p-12 animate-on-scroll">
+                    <div class="text-6xl text-gray-300 mb-6">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 heading-font">Coming Soon</h3>
+                    <p class="text-gray-600 mb-8">
+                        Our sermon messages will be available here shortly. Please check back soon!
+                    </p>
+                    <button class="btn btn-primary">
+                        <i class="fas fa-bell mr-2"></i>Get Notified When Available
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Load More Button -->
+            <div class="text-center mt-12">
+                <button class="btn btn-primary" onclick="loadMoreSermons()">
+                    Load More Sermons
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sermon Series Section removed -->
+
+    <!-- Video Modal -->
+    <div id="sermon-modal" class="modal-overlay">
+        <div class="modal">
+            <button class="modal-close" onclick="closeSermonModal()">
+                <i class="fas fa-times"></i>
+            </button>
+            <div id="modal-video-container">
+                <!-- Video will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="flex items-center space-x-2 mb-4">
+                        <div class="w-10 h-10 bg-secondary rounded-full flex items-center justify-center">
+                            <i class="fas fa-church text-white"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold">The Ekklesia</h3>
+                            <p class="text-xs text-secondary">Zion Embassy</p>
+                        </div>
+                    </div>
+                    <p class="mb-4">A Pentecostal church in Gezina dedicated to creating the kingdom family of God's chosen people and manifesting His glory.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link" aria-label="Facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="social-link" aria-label="YouTube">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                        <a href="#" class="social-link" aria-label="WhatsApp">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3 class="heading-font">Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="sermons.html">Messages</a></li>
+                        <li><a href="events.html">Events</a></li>
+                        <li><a href="ministries.html">Ministries</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3 class="heading-font">Service Times</h3>
+                    <ul class="footer-links">
+                        <li class="flex justify-between">
+                            <span>Sunday</span>
+                            <span>9:00 AM</span>
+                        </li>
+                        <li class="flex justify-between">
+                            <span>Tuesday</span>
+                            <span>6:30 PM</span>
+                        </li>
+                        <li class="flex justify-between">
+                            <span>Friday</span>
+                            <span>6:30 PM</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3 class="heading-font">Contact Info</h3>
+                    <address class="not-italic">
+                        <p class="mb-2">545 Steve Biko Road<br>Gezina, Pretoria</p>
+                        <p class="mb-2">Phone: 073 976 7073</p>
+                        <p class="mb-2">Email: zionembassy12@gmail.com</p>
+                    </address>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="md:flex justify-between items-center">
+                    <p>&copy; 2023 The Ekklesia Zion Embassy. All rights reserved.</p>
+                    <div class="flex space-x-6 mt-4 md:mt-0">
+                        <a href="#" class="hover:text-secondary transition">Privacy Policy</a>
+                        <a href="#" class="hover:text-secondary transition">Terms of Use</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" aria-label="Back to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Custom JavaScript -->
+    <script src="js/main.js"></script>
+    <!-- YouTube Sermons Integration -->
+    <script src="js/youtube-sermons.js"></script>
+    
+    <script>
+        // Configuration for YouTube API
+        // IMPORTANT: Replace these with your actual values
+        const YOUTUBE_CONFIG = {
+            // Get your API key from Google Cloud Console
+            // Enable YouTube Data API v3
+            API_KEY: 'YOUR_YOUTUBE_API_KEY_HERE',
+            
+            // Your church's YouTube channel ID
+            // You can find this in your YouTube channel URL or settings
+            CHANNEL_ID: 'YOUR_CHANNEL_ID_HERE'
+        };
+        
+        // Instructions for getting YouTube API credentials
+        console.log(`
+        🎥 YouTube Integration Setup Instructions:
+        
+        1. Go to Google Cloud Console (console.cloud.google.com)
+        2. Create a new project or select existing one
+        3. Enable YouTube Data API v3
+        4. Create credentials (API Key)
+        5. Restrict the API key to your domain for security
+        6. Replace 'YOUR_YOUTUBE_API_KEY_HERE' with your actual API key
+        7. Replace 'YOUR_CHANNEL_ID_HERE' with your YouTube channel ID
+        
+        📺 To find your Channel ID:
+        - Go to your YouTube channel
+        - Click on your profile picture → Settings → Advanced settings
+        - Copy the Channel ID
+        
+        🔧 For testing, you can use any public channel ID like:
+        - UC_x5XG1OV2P6uZZ5FSM9Ttw (Google Developers)
+        `);
+        
+        // Initialize YouTube integration when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Hide loading spinner initially
+            const loadingSpinner = document.getElementById('loading-spinner');
+            if (loadingSpinner) {
+                loadingSpinner.style.display = 'none';
+            }
+            
+            // Check if API credentials are configured
+            if (YOUTUBE_CONFIG.API_KEY === 'YOUR_YOUTUBE_API_KEY_HERE' ||
+                YOUTUBE_CONFIG.CHANNEL_ID === 'YOUR_CHANNEL_ID_HERE') {
+                
+                // Show setup instructions
+                showSetupInstructions();
+            } else {
+                // Initialize YouTube sermons with actual credentials
+                initializeYouTubeSermons();
+            }
+        });
+        
+        function showSetupInstructions() {
+            const sermonsGrid = document.getElementById('sermons-grid');
+            const sermonCount = document.getElementById('sermon-count');
+            
+            if (sermonCount) {
+                sermonCount.innerHTML = '⚙️ YouTube API Setup Required';
+            }
+            
+            if (sermonsGrid) {
+                sermonsGrid.innerHTML = `
+                    <div class="col-span-full">
+                        <div class="bg-blue-50 border border-blue-200 rounded-lg p-6 text-center">
+                            <div class="text-blue-600 text-4xl mb-4">
+                                <i class="fab fa-youtube"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-blue-800 mb-4">YouTube Integration Setup</h3>
+                            <p class="text-blue-700 mb-4">
+                                To display sermons from your YouTube channel, please configure the API credentials.
+                            </p>
+                            <div class="bg-white rounded-lg p-4 text-left max-w-2xl mx-auto">
+                                <h4 class="font-bold mb-2">Setup Steps:</h4>
+                                <ol class="list-decimal list-inside space-y-2 text-sm">
+                                    <li>Go to <a href="https://console.cloud.google.com" target="_blank" class="text-blue-600 underline">Google Cloud Console</a></li>
+                                    <li>Create a project and enable YouTube Data API v3</li>
+                                    <li>Create an API key in Credentials</li>
+                                    <li>Find your YouTube Channel ID in channel settings</li>
+                                    <li>Update the configuration in sermons.html (lines ~825-835)</li>
+                                </ol>
+                            </div>
+                            <div class="mt-4">
+                                <button onclick="window.open('https://console.cloud.google.com', '_blank')"
+                                        class="btn btn-primary">
+                                    <i class="fas fa-external-link-alt mr-2"></i>
+                                    Open Google Cloud Console
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+        
+        function initializeYouTubeSermons() {
+            // Show loading spinner
+            const loadingSpinner = document.getElementById('loading-spinner');
+            if (loadingSpinner) {
+                loadingSpinner.style.display = 'flex';
+            }
+            
+            // Initialize YouTube sermons with configured credentials
+            if (window.YouTubeSermons) {
+                window.youtubeSermons = new YouTubeSermons(
+                    YOUTUBE_CONFIG.API_KEY,
+                    YOUTUBE_CONFIG.CHANNEL_ID
+                );
+                window.youtubeSermons.init().then(() => {
+                    // Hide loading spinner after initialization
+                    if (loadingSpinner) {
+                        loadingSpinner.style.display = 'none';
+                    }
+                }).catch(error => {
+                    console.error('Failed to initialize YouTube sermons:', error);
+                    if (loadingSpinner) {
+                        loadingSpinner.style.display = 'none';
+                    }
+                    showErrorMessage('Failed to load sermons from YouTube. Please check your API configuration.');
+                });
+            } else {
+                console.error('YouTubeSermons class not found. Make sure youtube-sermons.js is loaded.');
+                showErrorMessage('YouTube integration script not loaded properly.');
+            }
+        }
+        
+        function showErrorMessage(message) {
+            const sermonsGrid = document.getElementById('sermons-grid');
+            if (sermonsGrid) {
+                sermonsGrid.innerHTML = `
+                    <div class="col-span-full">
+                        <div class="error-message">
+                            <i class="fas fa-exclamation-triangle mr-2"></i>
+                            ${message}
+                        </div>
+                    </div>
+                `;
+            }
+        }
+        
+        // Fallback functions for when YouTube integration is not configured
+        function openSermonModal(sermonId) {
+            alert('YouTube integration not configured. Please set up your API credentials to enable sermon playback.');
+        }
+        
+        function shareSermon(sermonId) {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Check out our sermons',
+                    text: 'Visit our church website to watch inspiring sermons and messages.',
+                    url: window.location.href
+                });
+            } else {
+                navigator.clipboard.writeText(window.location.href).then(() => {
+                    alert('Church website link copied to clipboard!');
+                });
+            }
+        }
+    </script>
+</body>
+</html>
