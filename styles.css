@@ -824,3 +824,44 @@ body {
         page-break-inside: avoid;
     }
 }
+
+/* Additional utility classes for proper styling */
+.animate-on-scroll {
+    opacity: 1;
+    transform: translateY(0);
+    transition: all 0.6s ease;
+}
+
+.newsletter-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 42rem;
+    margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+    .newsletter-form {
+        flex-direction: row;
+    }
+    
+    .newsletter-form input {
+        flex: 1;
+    }
+}
+
+/* Responsive grid improvements */
+@media (max-width: 768px) {
+    .newsletter-form {
+        flex-direction: column;
+    }
+    
+    .footer-bottom > div {
+        flex-direction: column !important;
+        text-align: center;
+    }
+    
+    .footer-bottom > div > div {
+        margin-top: 1rem !important;
+    }
+}

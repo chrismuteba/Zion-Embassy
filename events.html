@@ -7,7 +7,6 @@
     <meta name="description" content="Join us for upcoming events, special services, and community activities at The Ekklesia Zion Embassy. Experience God's presence with us.">
     
     <!-- External CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Custom CSS -->
@@ -260,7 +259,7 @@
         }
     </style>
 </head>
-<body class="bg-white text-gray-800">
+<body>
     <!-- Header/Navigation -->
     <header class="header">
         <div class="nav-container">
@@ -280,7 +279,7 @@
                 </div>
                 <div class="nav-item">
                     <a href="#" class="nav-link">
-                        About <i class="fas fa-chevron-down text-xs"></i>
+                        About <i class="fas fa-chevron-down" style="font-size: 0.75rem;"></i>
                     </a>
                     <div class="dropdown-menu">
                         <a href="about.html" class="dropdown-link">Our Story</a>
@@ -316,11 +315,11 @@
     </header>
 
     <!-- Page Header -->
-    <section class="bg-primary text-white py-20">
+    <section class="bg-primary" style="color: white; padding: 5rem 0;">
         <div class="container">
-            <div class="text-center animate-on-load">
-                <h1 class="text-4xl md:text-5xl font-bold mb-4 heading-font">Events & Activities</h1>
-                <p class="text-xl max-w-3xl mx-auto">
+            <div style="text-align: center;" class="animate-on-load">
+                <h1 style="font-size: clamp(2.25rem, 5vw, 3rem); font-weight: bold; margin-bottom: 1rem;" class="heading-font">Events & Activities</h1>
+                <p style="font-size: 1.25rem; max-width: 48rem; margin: 0 auto;">
                     Join us for special gatherings, worship services, and community events. Experience God's presence with our church family.
                 </p>
             </div>
@@ -330,18 +329,18 @@
     <!-- Next Big Event section removed -->
 
     <!-- Calendar and Events Section -->
-    <section class="section bg-gray-50">
+    <section class="section" style="background-color: #f8fafc;">
         <div class="container">
-            <div class="grid grid-2 gap-12">
+            <div class="grid grid-2" style="gap: 3rem;">
                 <!-- Event Calendar -->
                 <div class="animate-on-scroll">
-                    <h3 class="text-2xl font-bold mb-6 heading-font text-primary">Event Calendar</h3>
+                    <h3 style="font-size: 1.5rem; font-weight: bold; margin-bottom: 1.5rem; color: var(--primary);" class="heading-font">Event Calendar</h3>
                     <div class="event-calendar">
                         <div class="calendar-header">
                             <button class="calendar-nav" onclick="previousMonth()">
                                 <i class="fas fa-chevron-left"></i>
                             </button>
-                            <h4 class="text-xl font-bold" id="calendar-month-year">July 2023</h4>
+                            <h4 style="font-size: 1.25rem; font-weight: bold;" id="calendar-month-year">July 2023</h4>
                             <button class="calendar-nav" onclick="nextMonth()">
                                 <i class="fas fa-chevron-right"></i>
                             </button>
@@ -364,7 +363,7 @@
                 
                 <!-- Quick Registration -->
                 <div class="animate-on-scroll">
-                    <h3 class="text-2xl font-bold mb-6 heading-font text-primary">Quick Event Registration</h3>
+                    <h3 style="font-size: 1.5rem; font-weight: bold; margin-bottom: 1.5rem; color: var(--primary);" class="heading-font">Quick Event Registration</h3>
                     <div class="registration-form">
                         <form id="quick-registration-form">
                             <div class="form-group">
@@ -393,8 +392,8 @@
                                 <input type="tel" id="quick-phone" name="phone" class="form-input">
                             </div>
                             
-                            <button type="submit" class="btn btn-primary w-full">
-                                <i class="fas fa-calendar-plus mr-2"></i>Register for Event
+                            <button type="submit" class="btn btn-primary" style="width: 100%;">
+                                <i class="fas fa-calendar-plus" style="margin-right: 0.5rem;"></i>Register for Event
                             </button>
                         </form>
                     </div>
@@ -425,13 +424,13 @@
             </div>
             
             <!-- Events Grid -->
-            <div class="grid grid-3 gap-8" id="events-grid">
-                <div class="text-center p-8">
-                    <div class="text-2xl font-bold text-gray-400 mb-4">
+            <div class="grid grid-3" style="gap: 2rem;" id="events-grid">
+                <div style="text-align: center; padding: 2rem;">
+                    <div style="font-size: 1.5rem; font-weight: bold; color: #9ca3af; margin-bottom: 1rem;">
                         <i class="fas fa-calendar-alt"></i>
                     </div>
-                    <h3 class="text-xl font-bold mb-2">Coming Soon</h3>
-                    <p class="text-gray-500">
+                    <h3 style="font-size: 1.25rem; font-weight: bold; margin-bottom: 0.5rem;">Coming Soon</h3>
+                    <p style="color: #6b7280;">
                         Our upcoming events will be posted here. Check back soon for updates!
                     </p>
                 </div>
@@ -443,7 +442,7 @@
     <div id="registration-modal" class="modal-overlay">
         <div class="modal">
             <div class="modal-header">
-                <h3 class="text-xl font-bold heading-font" id="modal-title">Event Registration</h3>
+                <h3 style="font-size: 1.25rem; font-weight: bold;" class="heading-font" id="modal-title">Event Registration</h3>
                 <button class="modal-close" onclick="closeRegistrationModal()">
                     <i class="fas fa-times"></i>
                 </button>
@@ -485,14 +484,14 @@
                     </div>
                     
                     <div class="form-group">
-                        <label class="flex items-center">
-                            <input type="checkbox" id="reg-consent" name="consent" class="mr-2" required>
-                            <span class="text-sm">I consent to my information being used for event communication and church updates.</span>
+                        <label style="display: flex; align-items: center;">
+                            <input type="checkbox" id="reg-consent" name="consent" style="margin-right: 0.5rem;" required>
+                            <span style="font-size: 0.875rem;">I consent to my information being used for event communication and church updates.</span>
                         </label>
                     </div>
                     
-                    <button type="submit" class="btn btn-primary w-full">
-                        <i class="fas fa-calendar-plus mr-2"></i>Complete Registration
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                        <i class="fas fa-calendar-plus" style="margin-right: 0.5rem;"></i>Complete Registration
                     </button>
                 </form>
             </div>
@@ -504,16 +503,16 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
-                    <div class="flex items-center space-x-2 mb-4">
-                        <div class="w-10 h-10 bg-secondary rounded-full flex items-center justify-center overflow-hidden">
-                            <img src="logo.jpg" alt="The Ekklesia Zion Embassy Logo" class="w-full h-full object-cover">
+                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+                        <div style="width: 2.5rem; height: 2.5rem; background-color: var(--secondary); border-radius: 50%; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                            <img src="logo.jpg" alt="The Ekklesia Zion Embassy Logo" style="width: 100%; height: 100%; object-fit: cover;">
                         </div>
                         <div>
-                            <h3 class="font-bold">The Ekklesia</h3>
-                            <p class="text-xs text-secondary">Zion Embassy</p>
+                            <h3 style="font-weight: bold;">The Ekklesia</h3>
+                            <p style="font-size: 0.75rem; color: var(--secondary);">Zion Embassy</p>
                         </div>
                     </div>
-                    <p class="mb-4">A Pentecostal church in Gezina dedicated to creating the kingdom family of God's chosen people and manifesting His glory.</p>
+                    <p style="margin-bottom: 1rem;">A Pentecostal church in Gezina dedicated to creating the kingdom family of God's chosen people and manifesting His glory.</p>
                     <div class="social-links">
                         <a href="#" class="social-link" aria-label="Facebook">
                             <i class="fab fa-facebook-f"></i>
@@ -545,15 +544,15 @@
                 <div class="footer-section">
                     <h3 class="heading-font">Service Times</h3>
                     <ul class="footer-links">
-                        <li class="flex justify-between">
+                        <li style="display: flex; justify-content: space-between;">
                             <span>Sunday</span>
                             <span>9:00 AM</span>
                         </li>
-                        <li class="flex justify-between">
+                        <li style="display: flex; justify-content: space-between;">
                             <span>Tuesday</span>
                             <span>6:30 PM</span>
                         </li>
-                        <li class="flex justify-between">
+                        <li style="display: flex; justify-content: space-between;">
                             <span>Friday</span>
                             <span>6:30 PM</span>
                         </li>
@@ -562,20 +561,20 @@
                 
                 <div class="footer-section">
                     <h3 class="heading-font">Contact Info</h3>
-                    <address class="not-italic">
-                        <p class="mb-2">545 Steve Biko Road<br>Gezina, Pretoria</p>
-                        <p class="mb-2">Phone: 073 976 7073</p>
-                        <p class="mb-2">Email: zionembassy12@gmail.com</p>
+                    <address style="font-style: normal;">
+                        <p style="margin-bottom: 0.5rem;">545 Steve Biko Road<br>Gezina, Pretoria</p>
+                        <p style="margin-bottom: 0.5rem;">Phone: 073 976 7073</p>
+                        <p style="margin-bottom: 0.5rem;">Email: zionembassy12@gmail.com</p>
                     </address>
                 </div>
             </div>
             
             <div class="footer-bottom">
-                <div class="md:flex justify-between items-center">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
                     <p>&copy; 2023 The Ekklesia Zion Embassy. All rights reserved.</p>
-                    <div class="flex space-x-6 mt-4 md:mt-0">
-                        <a href="#" class="hover:text-secondary transition">Privacy Policy</a>
-                        <a href="#" class="hover:text-secondary transition">Terms of Use</a>
+                    <div style="display: flex; gap: 1.5rem; margin-top: 1rem;">
+                        <a href="#" style="color: white; text-decoration: none; transition: color 0.3s ease;" onmouseover="this.style.color='var(--secondary)'" onmouseout="this.style.color='white'">Privacy Policy</a>
+                        <a href="#" style="color: white; text-decoration: none; transition: color 0.3s ease;" onmouseover="this.style.color='var(--secondary)'" onmouseout="this.style.color='white'">Terms of Use</a>
                     </div>
                 </div>
             </div>
