@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ministries - The Ekklesia Zion Embassy</title>
+    <meta name="description" content="Discover the various ministries at The Ekklesia Zion Embassy. Find your place to serve and grow in faith through our worship, youth, outreach, and children's ministries.">
+    
+    <!-- External CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/styles.css">
+    
+    <style>
+        .ministry-hero {
+            background: linear-gradient(rgba(10, 36, 99, 0.8), rgba(10, 36, 99, 0.8)),
+                        url('https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        
+        .ministry-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .ministry-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .ministry-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--secondary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2rem;
+            color: var(--primary);
+            transition: all 0.3s ease;
+        }
+        
+        .ministry-card:hover .ministry-icon {
+            transform: scale(1.1);
+            background: var(--primary);
+            color: white;
+        }
+        
+        .volunteer-form {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .leadership-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .leadership-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .leader-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 1rem;
+            border: 4px solid var(--secondary);
+        }
+        
+        .ministry-stats {
+            background: var(--primary);
+            color: white;
+            padding: 3rem 0;
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 1rem;
+        }
+        
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--secondary);
+            display: block;
+        }
+        
+        .stat-label {
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .ministry-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+        
+        .gallery-item {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            aspect-ratio: 4/3;
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+        
+        .gallery-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(10, 36, 99, 0.8);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="bg-white text-gray-800">
+    <!-- Header/Navigation -->
+    <header class="header">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">
+                    <img src="logo.jpg" alt="The Ekklesia Zion Embassy Logo" class="logo-image">
+                </div>
+                <div class="logo-text">
+                    <h1 class="heading-font">The Ekklesia</h1>
+                    <p>Zion Embassy</p>
+                </div>
+            </a>
+            
+            <nav class="nav-menu">
+                <div class="nav-item">
+                    <a href="index.html" class="nav-link">Home</a>
+                </div>
+                <div class="nav-item">
+                    <a href="#" class="nav-link">
+                        About <i class="fas fa-chevron-down text-xs"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <a href="about.html" class="dropdown-link">Our Story</a>
+                        <a href="about.html#mission" class="dropdown-link">Mission & Vision</a>
+                        <a href="about.html#beliefs" class="dropdown-link">Our Beliefs</a>
+                        <a href="about.html#leadership" class="dropdown-link">Leadership</a>
+                    </div>
+                </div>
+                <div class="nav-item">
+                    <a href="sermons.html" class="nav-link">Messages</a>
+                </div>
+                <div class="nav-item">
+                    <a href="events.html" class="nav-link">Events</a>
+                </div>
+                <div class="nav-item">
+                    <a href="ministries.html" class="nav-link">Ministries</a>
+                </div>
+                <div class="nav-item">
+                    <a href="blog.html" class="nav-link">News</a>
+                </div>
+                <div class="nav-item">
+                    <a href="contact.html" class="nav-link">Contact</a>
+                </div>
+                <div class="nav-item">
+                    <a href="give.html" class="nav-link btn btn-primary" style="padding: 0.5rem 1rem; border-radius: 25px;">Give</a>
+                </div>
+            </nav>
+            
+            <button class="mobile-menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <section class="ministry-hero min-h-96 flex items-center text-white">
+        <div class="container">
+            <div class="text-center animate-on-load">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4 heading-font">Our Ministries</h1>
+                <p class="text-xl max-w-3xl mx-auto">
+                    Discover how you can get involved and grow in your faith journey through our various ministries. Find your place to serve and make a difference.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ministry Stats -->
+    <section class="ministry-stats">
+        <div class="container">
+            <div class="grid grid-4 gap-8">
+                <div class="stat-item animate-on-scroll">
+                    <span class="stat-number">8</span>
+                    <span class="stat-label">Active Ministries</span>
+                </div>
+                <div class="stat-item animate-on-scroll">
+                    <span class="stat-number">150+</span>
+                    <span class="stat-label">Volunteers</span>
+                </div>
+                <div class="stat-item animate-on-scroll">
+                    <span class="stat-number">500+</span>
+                    <span class="stat-label">Lives Impacted</span>
+                </div>
+                <div class="stat-item animate-on-scroll">
+                    <span class="stat-number">12</span>
+                    <span class="stat-label">Years Serving</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Ministries Section -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title heading-font">Our Main Ministries</h2>
+                <div class="section-divider"></div>
+                <p class="section-description">
+                    Each ministry is designed to help you grow spiritually while serving others and building community.
+                </p>
+            </div>
+            
+            <div class="grid grid-2 gap-8">
+                <!-- Worship & Arts Ministry -->
+                <div id="worship" class="ministry-card animate-on-scroll">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
+                             alt="Worship Ministry" 
+                             class="w-full h-48 object-cover">
+                        <div class="absolute inset-0 bg-black bg-opacity-40"></div>
+                        <div class="absolute bottom-4 left-4 text-white">
+                            <h3 class="text-xl font-bold heading-font">Worship & Arts</h3>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="ministry-icon">
+                            <i class="fas fa-music"></i>
+                        </div>
+                        <p class="text-gray-600 mb-4">
+                            Our worship team leads the congregation into God's presence through music, song, and creative arts. 
+                            We believe worship is a lifestyle, not just a Sunday experience.
+                        </p>
+                        <div class="mb-4">
+                            <h4 class="font-bold mb-2">What We Do:</h4>
+                            <ul class="text-sm text-gray-600 space-y-1">
+                                <li>• Lead Sunday worship services</li>
+                                <li>• Organize special worship nights</li>
+                                <li>• Train musicians and vocalists</li>
+                                <li>• Creative arts and drama</li>
+                            </ul>
+                        </div>
+                        <div class="mb-4">
+                            <h4 class="font-bold mb-2">Get Involved:</h4>
+                            <p class="text-sm text-gray-600">
+                                Whether you play an instrument, sing, or have a heart for creative expression, 
+                                there's a place for you in our worship ministry.
+                            </p>
+                        </div>
+                        <button class="btn btn-primary w-full" onclick="openVolunteerModal('worship')">
+                            Join Worship Ministry
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Youth Ministry -->
+                <div id="youth" class="ministry-card animate-on-scroll">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
+                             alt="Youth Ministry" 
+                             class="w-full h-48 object-cover">
+                        <div class="absolute inset-0 bg-black bg-opacity-40"></div>
+                        <div class="absolute bottom-4 left-4 text-white">
+                            <h3 class="text-xl font-bold heading-font">Youth Ministry</h3>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="ministry-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <p class="text-gray-600 mb-4">
+                            Engaging young people aged 13-25 with relevant biblical teaching, fun activities, 
+                            and a community where they can grow in their faith and discover their purpose.
+                        </p>
+                        <div class="mb-4">
+                            <h4 class="font-bold mb-2">What We Do:</h4>
+                            <ul class="text-sm text-gray-600 space-y-1">
+                                <li>• Weekly youth gatherings</li>
+                                <li>• Summer camps and retreats</li>
+                                <li>• Mentorship programs</li>
+                                <li>• Community service projects</li>
+                            </ul>
+                        </div>
+                        <div class="mb-4">
+                            <h4 class="font-bold mb-2">Meeting Times:</h4>
+                            <p class="text-sm text-gray-600">
+                                Fridays 7:00 PM - 9:00 PM<br>
+                                Special events throughout the month
+                            </p>
+                        </div>
+                        <button class="btn btn-primary w-full" onclick="openVolunteerModal('youth')">
+                            Join Youth Ministry
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Outreach Ministry -->
+                <div id="outreach" class="ministry-card animate-on-scroll">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
+                             alt="Outreach Ministry" 
+                             class="w-full h-48 object-cover">
+                        <div class="absolute inset-0 bg-black bg-opacity-40"></div>
+                        <div class="absolute bottom-4 left-4 text-white">
+                            <h3 class="text-xl font-bold heading-font">Outreach Ministry</h3>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="ministry-icon">
+                            <i class="fas fa-hands-helping"></i>
+                        </div>
+                        <p class="text-gray-600 mb-4">
+                            Sharing God's love through community service, evangelism, and missions work. 
+                            We believe in being the hands and feet of Jesus in our community.
+                        </p>
+                        <div class="mb-4">
+                            <h4 class="font-bold mb-2">What We Do:</h4>
+                            <ul class="text-sm text-gray-600 space-y-1">
+                                <li>• Food distribution programs</li>
+                                <li>• Community clean-up initiatives</li>
+                                <li>• Prison ministry</li>
+                                <li>• Street evangelism</li>
+                            </ul>
+                        </div>
+                        <div class="mb-4">
+                            <h4 class="font-bold mb-2">Impact:</h4>
+                            <p class="text-sm text-gray-600">
+                                Over 200 families served monthly through our food program and 
+                                countless lives touched through our outreach efforts.
+                            </p>
+                        </div>
+                        <button class="btn btn-primary w-full" onclick="openVolunteerModal('outreach')">
+                            Join Outreach Ministry
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Children's Ministry -->
+                <div id="children" class="ministry-card animate-on-scroll">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
+                             alt="Children's Ministry" 
+                             class="w-full h-48 object-cover">
+                        <div class="absolute inset-0 bg-black bg-opacity-40"></div>
+                        <div class="absolute bottom-4 left-4 text-white">
+                            <h3 class="text-xl font-bold heading-font">Children's Church</h3>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="ministry-icon">
+                            <i class="fas fa-child"></i>
+                        </div>
+                        <p class="text-gray-600 mb-4">
+                            A fun, safe environment where children ages 3-12 learn about Jesus at their own level 
+                            through interactive lessons, games, and activities.
+                        </p>
+                        <div class="mb-4">
+                            <h4 class="font-bold mb-2">What We Offer:</h4>
+                            <ul class="text-sm text-gray-600 space-y-1">
+                                <li>• Age-appropriate Bible lessons</li>
+                                <li>• Interactive games and activities</li>
+                                <li>• Arts and crafts</li>
+                                <li>• Character building programs</li>
+                            </ul>
+                        </div>
+                        <div class="mb-4">
+                            <h4 class="font-bold mb-2">Safety First:</h4>
+                            <p class="text-sm text-gray-600">
+                                All volunteers are background checked and trained in child safety protocols.
+                            </p>
+                        </div>
+                        <button class="btn btn-primary w-full" onclick="openVolunteerModal('children')">
+                            Join Children's Ministry
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Additional Ministries -->
+    <section class="section bg-gray-50">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title heading-font">Additional Ministries</h2>
+                <div class="section-divider"></div>
+            </div>
+            
+            <div class="grid grid-4 gap-6">
+                <div class="text-center p-6 bg-white rounded-lg shadow-md animate-on-scroll">
+                    <div class="ministry-icon mx-auto">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3 class="text-lg font-bold mb-2 heading-font">Women's Ministry</h3>
+                    <p class="text-sm text-gray-600 mb-4">Empowering women through fellowship, Bible study, and mutual support.</p>
+                    <button class="btn btn-outline btn-sm" onclick="openVolunteerModal('women')">Learn More</button>
+                </div>
+                
+                <div class="text-center p-6 bg-white rounded-lg shadow-md animate-on-scroll">
+                    <div class="ministry-icon mx-auto">
+                        <i class="fas fa-male"></i>
+                    </div>
+                    <h3 class="text-lg font-bold mb-2 heading-font">Men's Ministry</h3>
+                    <p class="text-sm text-gray-600 mb-4">Building godly men through brotherhood, accountability, and service.</p>
+                    <button class="btn btn-outline btn-sm" onclick="openVolunteerModal('men')">Learn More</button>
+                </div>
+                
+                <div class="text-center p-6 bg-white rounded-lg shadow-md animate-on-scroll">
+                    <div class="ministry-icon mx-auto">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3 class="text-lg font-bold mb-2 heading-font">Discipleship</h3>
+                    <p class="text-sm text-gray-600 mb-4">Growing mature believers through structured learning and mentorship.</p>
+                    <button class="btn btn-outline btn-sm" onclick="openVolunteerModal('discipleship')">Learn More</button>
+                </div>
+                
+                <div class="text-center p-6 bg-white rounded-lg shadow-md animate-on-scroll">
+                    <div class="ministry-icon mx-auto">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <h3 class="text-lg font-bold mb-2 heading-font">Hospitality</h3>
+                    <p class="text-sm text-gray-600 mb-4">Creating a welcoming environment for all who enter our church.</p>
+                    <button class="btn btn-outline btn-sm" onclick="openVolunteerModal('hospitality')">Learn More</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ministry Gallery -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title heading-font">Ministry in Action</h2>
+                <div class="section-divider"></div>
+                <p class="section-description">
+                    See our ministries at work in the community and church.
+                </p>
+            </div>
+            
+            <div class="ministry-gallery">
+                <div class="gallery-item animate-on-scroll">
+                    <img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Community Service">
+                    <div class="gallery-overlay">
+                        <span class="font-bold">Community Service</span>
+                    </div>
+                </div>
+                <div class="gallery-item animate-on-scroll">
+                    <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Youth Activities">
+                    <div class="gallery-overlay">
+                        <span class="font-bold">Youth Activities</span>
+                    </div>
+                </div>
+                <div class="gallery-item animate-on-scroll">
+                    <img src="https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Children's Church">
+                    <div class="gallery-overlay">
+                        <span class="font-bold">Children's Church</span>
+                    </div>
+                </div>
+                <div class="gallery-item animate-on-scroll">
+                    <img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Worship Team">
+                    <div class="gallery-overlay">
+                        <span class="font-bold">Worship Team</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Volunteer Call to Action -->
+    <section class="section bg-primary text-white">
+        <div class="container">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 heading-font">Ready to Serve?</h2>
+                <p class="text-xl mb-8">
+                    God has given each of us unique gifts and talents. Find your place in ministry and make a difference in the lives of others.
+                </p>
+                <div class="flex flex-col md:flex-row gap-4 justify-center">
+                    <button class="btn btn-secondary" onclick="openVolunteerModal('general')">
+                        <i class="fas fa-hands-helping mr-2"></i>Volunteer Today
+                    </button>
+                    <a href="contact.html" class="btn btn-outline border-white text-white hover:bg-white hover:text-primary">
+                        <i class="fas fa-phone mr-2"></i>Contact Us
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- No volunteer modal section -->
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="flex items-center space-x-2 mb-4">
+                        <div class="w-10 h-10 bg-secondary rounded-full flex items-center justify-center overflow-hidden">
+                            <img src="logo.jpg" alt="The Ekklesia Zion Embassy Logo" class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <h3 class="font-bold">The Ekklesia</h3>
+                            <p class="text-xs text-secondary">Zion Embassy</p>
+                        </div>
+                    </div>
+                    <p class="mb-4">A Pentecostal church in Gezina dedicated to creating the kingdom family of God's chosen people and manifesting His glory.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link" aria-label="Facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="social-link" aria-label="YouTube">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                        <a href="#" class="social-link" aria-label="WhatsApp">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3 class="heading-font">Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="sermons.html">Messages</a></li>
+                        <li><a href="events.html">Events</a></li>
+                        <li><a href="ministries.html">Ministries</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3 class="heading-font">Service Times</h3>
+                    <ul class="footer-links">
+                        <li class="flex justify-between">
+                            <span>Sunday</span>
+                            <span>9:00 AM</span>
+                        </li>
+                        <li class="flex justify-between">
+                            <span>Tuesday</span>
+                            <span>6:30 PM</span>
+                        </li>
+                        <li class="flex justify-between">
+                            <span>Friday</span>
+                            <span>6:30 PM</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3 class="heading-font">Contact Info</h3>
+                    <address class="not-italic">
+                        <p class="mb-2">545 Steve Biko Road<br>Gezina, Pretoria</p
+                        <li class="flex justify-between">
+                            <span>Tuesday</span>
+                            <span>6:30 PM</span>
+                        </li>
+                        <li class="flex justify-between">
+                            <span>Friday</span>
+                            <span>6:30 PM</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3 class="heading-font">Contact Info</h3>
+                    <address class="not-italic">
+                        <p class="mb-2">545 Steve Biko Road<br>Gezina, Pretoria</p>
+                        <p class="mb-2">Phone: 073 976 7073</p>
+                        <p class="mb-2">Email: zionembassy12@gmail.com</p>
+                    </address>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="md:flex justify-between items-center">
+                    <p>&copy; 2023 The Ekklesia Zion Embassy. All rights reserved.</p>
+                    <div class="flex space-x-6 mt-4 md:mt-0">
+                        <a href="#" class="hover:text-secondary transition">Privacy Policy</a>
+                        <a href="#" class="hover:text-secondary transition">Terms of Use</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" aria-label="Back to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Custom JavaScript -->
+    <script src="js/main.js"></script>
+    
+    <script>
+        // Ministry-specific JavaScript
+        function openVolunteerModal(ministryType) {
+            // Redirect to contact page instead of opening modal
+            window.location.href = 'contact.html';
+        }
+        
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // Smooth scroll to ministry sections
+            const ministryLinks = document.querySelectorAll('a[href^="#"]');
+            ministryLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    if (targetElement) {
+                        const headerHeight = document.querySelector('.header')?.offsetHeight || 0;
+                        const targetPosition = targetElement.offsetTop - headerHeight - 20;
+                        
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

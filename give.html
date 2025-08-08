@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Give - The Ekklesia Zion Embassy</title>
+    <meta name="description" content="Support The Ekklesia Zion Embassy through your generous giving. Learn about tithing, offerings, and special projects.">
+    
+    <!-- External CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/styles.css">
+    
+    <style>
+        .giving-hero {
+            background: linear-gradient(rgba(10, 36, 99, 0.8), rgba(10, 36, 99, 0.8)),
+                        url('https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        
+        .giving-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .giving-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            border-color: var(--secondary);
+        }
+        
+        .giving-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2rem;
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .amount-button {
+            background: white;
+            border: 2px solid var(--light-gray);
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        .amount-button:hover {
+            border-color: var(--secondary);
+            background: var(--light-gray);
+        }
+        
+        .amount-button.selected {
+            background: var(--secondary);
+            border-color: var(--secondary);
+            color: white;
+        }
+        
+        .custom-amount-input {
+            border: 2px solid var(--light-gray);
+            border-radius: 12px;
+            padding: 1rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .custom-amount-input:focus {
+            border-color: var(--secondary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.1);
+        }
+        
+        .payment-method {
+            background: white;
+            border: 2px solid var(--light-gray);
+            border-radius: 12px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .payment-method:hover {
+            border-color: var(--secondary);
+            background: var(--light-gray);
+        }
+        
+        .payment-method.selected {
+            border-color: var(--secondary);
+            background: var(--secondary);
+            color: white;
+        }
+        
+        .payment-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--light-gray);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        
+        .payment-method.selected .payment-icon {
+            background: white;
+            color: var(--secondary);
+        }
+        
+        .giving-form {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .progress-bar {
+            background: var(--light-gray);
+            border-radius: 10px;
+            height: 20px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(90deg, var(--secondary), var(--primary));
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+        
+        .project-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+        
+        .project-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .verse-card {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .verse-card::before {
+            content: '"';
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            font-size: 8rem;
+            opacity: 0.2;
+            font-family: serif;
+        }
+        
+        .verse-card::after {
+            content: '"';
+            position: absolute;
+            bottom: -60px;
+            right: 20px;
+            font-size: 8rem;
+            opacity: 0.2;
+            font-family: serif;
+        }
+        
+        .security-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #10b981;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        .testimonial-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid var(--secondary);
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+    <!-- Header/Navigation -->
+    <header class="header">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-church text-white"></i>
+                </div>
+                <div class="logo-text">
+                    <h1 class="heading-font">The Ekklesia</h1>
+                    <p>Zion Embassy</p>
+                </div>
+            </a>
+            
+            <nav class="nav-menu">
+                <div class="nav-item">
+                    <a href="index.html" class="nav-link">Home</a>
+                </div>
+                <div class="nav-item">
+                    <a href="#" class="nav-link">
+                        About <i class="fas fa-chevron-down text-xs"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <a href="about.html" class="dropdown-link">Our Story</a>
+                        <a href="about.html#mission" class="dropdown-link">Mission & Vision</a>
+                        <a href="about.html#beliefs" class="dropdown-link">Our Beliefs</a>
+                        <a href="about.html#leadership" class="dropdown-link">Leadership</a>
+                    </div>
+                </div>
+                <div class="nav-item">
+                    <a href="sermons.html" class="nav-link">Messages</a>
+                </div>
+                <div class="nav-item">
+                    <a href="events.html" class="nav-link">Events</a>
+                </div>
+                <div class="nav-item">
+                    <a href="ministries.html" class="nav-link">Ministries</a>
+                </div>
+                <div class="nav-item">
+                    <a href="contact.html" class="nav-link">Contact</a>
+                </div>
+                <div class="nav-item">
+                    <a href="blog.html" class="nav-link">News</a>
+                </div>
+                <div class="nav-item">
+                    <a href="give.html" class="nav-link btn btn-primary" style="padding: 0.5rem 1rem; border-radius: 25px;">Give</a>
+                </div>
+            </nav>
+            
+            <button class="mobile-menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <section class="giving-hero min-h-96 flex items-center text-white">
+        <div class="container">
+            <div class="text-center animate-on-load">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4 heading-font">Give Generously</h1>
+                <p class="text-xl max-w-3xl mx-auto mb-8">
+                    Your generous giving helps us spread the Gospel, support our community, and advance God's kingdom. Thank you for partnering with us in ministry.
+                </p>
+                <div class="security-badge">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>100% Secure & Encrypted</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Biblical Foundation -->
+    <section class="section">
+        <div class="container">
+            <div class="verse-card animate-on-scroll">
+                <h2 class="text-2xl font-bold mb-4 heading-font">God's Heart for Giving</h2>
+                <p class="text-lg mb-4 italic">
+                    Each of you should give what you have decided in your heart to give, not reluctantly or under compulsion, for God loves a cheerful giver.
+                </p>
+                <p class="font-semibold">2 Corinthians 9:7</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Giving Options -->
+    <section class="section bg-white">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title heading-font">Ways to Give</h2>
+                <div class="section-divider"></div>
+                <p class="section-description">
+                    Choose the giving option that best fits your heart and circumstances.
+                </p>
+            </div>
+            
+            <div class="grid grid-3 gap-8">
+                <div class="giving-card animate-on-scroll">
+                    <div class="giving-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-center heading-font">Tithes & Offerings</h3>
+                    <p class="text-gray-600 mb-6 text-center">
+                        Support the ongoing ministry and operations of our church through regular tithes and offerings.
+                    </p>
+                    <div class="text-center">
+                        <button onclick="openGivingModal('tithe')" class="btn btn-primary">
+                            <i class="fas fa-gift mr-2"></i>Give Now
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="giving-card animate-on-scroll">
+                    <div class="giving-icon">
+                        <i class="fas fa-hands-helping"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-center heading-font">Special Projects</h3>
+                    <p class="text-gray-600 mb-6 text-center">
+                        Contribute to specific ministry projects, building improvements, and community outreach programs.
+                    </p>
+                    <div class="text-center">
+                        <button onclick="openGivingModal('project')" class="btn btn-secondary">
+                            <i class="fas fa-hammer mr-2"></i>Support Projects
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="giving-card animate-on-scroll">
+                    <div class="giving-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-center heading-font">Recurring Giving</h3>
+                    <p class="text-gray-600 mb-6 text-center">
+                        Set up automatic monthly giving to provide consistent support for our ministry work.
+                    </p>
+                    <div class="text-center">
+                        <button onclick="openGivingModal('recurring')" class="btn btn-outline">
+                            <i class="fas fa-sync mr-2"></i>Set Up Recurring
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Current Projects -->
+    <section class="section bg-gray-50">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title heading-font">Current Projects</h2>
+                <div class="section-divider"></div>
+                <p class="section-description">
+                    See how your giving is making a difference in our community and beyond.
+                </p>
+            </div>
+            
+            <div class="grid grid-2 gap-8">
+                <div class="project-card animate-on-scroll">
+                    <img src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
+                         alt="Youth Center" 
+                         class="project-image">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2 heading-font">Youth Center Renovation</h3>
+                        <p class="text-gray-600 mb-4">
+                            Upgrading our youth facilities to provide a safe, modern space for our young people to grow in faith and fellowship.
+                        </p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 65%"></div>
+                        </div>
+                        <div class="flex justify-between text-sm text-gray-600 mb-4">
+                            <span>R65,000 raised</span>
+                            <span>R100,000 goal</span>
+                        </div>
+                        <button onclick="openGivingModal('youth-center')" class="btn btn-primary w-full">
+                            <i class="fas fa-donate mr-2"></i>Support This Project
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="project-card animate-on-scroll">
+                    <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
+                         alt="Community Outreach" 
+                         class="project-image">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2 heading-font">Community Food Program</h3>
+                        <p class="text-gray-600 mb-4">
+                            Providing weekly food packages to families in need within our community, showing God's love through practical care.
+                        </p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 40%"></div>
+                        </div>
+                        <div class="flex justify-between text-sm text-gray-600 mb-4">
+                            <span>R20,000 raised</span>
+                            <span>R50,000 goal</span>
+                        </div>
+                        <button onclick="openGivingModal('food-program')" class="btn btn-primary w-full">
+                            <i class="fas fa-donate mr-2"></i>Support This Project
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Giving Impact -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title heading-font">Your Impact</h2>
+                <div class="section-divider"></div>
+                <p class="section-description">
+                    See how your generous giving is transforming lives and advancing God's kingdom.
+                </p>
+            </div>
+            
+            <div class="grid grid-4 gap-6">
+                <div class="text-center animate-on-scroll">
+                    <div class="text-4xl font-bold text-secondary mb-2">150+</div>
+                    <p class="text-gray-600">Families Fed Monthly</p>
+                </div>
+                <div class="text-center animate-on-scroll">
+                    <div class="text-4xl font-bold text-secondary mb-2">50+</div>
+                    <p class="text-gray-600">Youth in Programs</p>
+                </div>
+                <div class="text-center animate-on-scroll">
+                    <div class="text-4xl font-bold text-secondary mb-2">25+</div>
+                    <p class="text-gray-600">Baptisms This Year</p>
+                </div>
+                <div class="text-center animate-on-scroll">
+                    <div class="text-4xl font-bold text-secondary mb-2">R500K+</div>
+                    <p class="text-gray-600">Community Investment</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="section bg-gray-50">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title heading-font">Testimonies of Generosity</h2>
+                <div class="section-divider"></div>
+                <p class="section-description">
+                    Hear from members about the joy and blessing of giving.
+                </p>
+            </div>
+            
+            <div class="grid grid-2 gap-8">
+                <div class="testimonial-card animate-on-scroll">
+                    <p class="mb-4 italic">
+                        "Giving to our church has been one of the most rewarding experiences of my faith journey. Seeing how God multiplies our offerings to bless others is truly amazing."
+                    </p>
+                    <div class="flex items-center">
+                        <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" 
+                             alt="Sarah M." 
+                             class="w-12 h-12 rounded-full mr-3">
+                        <div>
+                            <div class="font-semibold">Sarah M.</div>
+                            <div class="text-sm text-gray-600">Church Member</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card animate-on-scroll">
+                    <p class="mb-4 italic">
+                        "When I started tithing, I was worried about finances. But God has been so faithful, and I've experienced His provision in ways I never imagined."
+                    </p>
+                    <div class="flex items-center">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" 
+                             alt="David K." 
+                             class="w-12 h-12 rounded-full mr-3">
+                        <div>
+                            <div class="font-semibold">David K.</div>
+                            <div class="text-sm text-gray-600">Church Member</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Other Ways to Give -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title heading-font">Other Ways to Give</h2>
+                <div class="section-divider"></div>
+                <p class="section-description">
+                    Explore additional ways to support our ministry beyond financial giving.
+                </p>
+            </div>
+            
+            <div class="grid grid-3 gap-8">
+                <div class="giving-card animate-on-scroll">
+                    <div class="giving-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-center heading-font">Volunteer Time</h3>
+                    <p class="text-gray-600 text-center mb-4">
+                        Share your skills and time to serve in various ministries and church activities.
+                    </p>
+                    <div class="text-center">
+                        <a href="ministries.html" class="btn btn-outline btn-sm">
+                            <i class="fas fa-hands mr-2"></i>Learn More
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="giving-card animate-on-scroll">
+                    <div class="giving-icon">
+                        <i class="fas fa-box"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-center heading-font">Donate Goods</h3>
+                    <p class="text-gray-600 text-center mb-4">
+                        Contribute clothing, food, or other items for our community outreach programs.
+                    </p>
+                    <div class="text-center">
+                        <a href="contact.html" class="btn btn-outline btn-sm">
+                            <i class="fas fa-info-circle mr-2"></i>Contact Us
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="giving-card animate-on-scroll">
+                    <div class="giving-icon">
+                        <i class="fas fa-share-alt"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-center heading-font">Share & Invite</h3>
+                    <p class="text-gray-600 text-center mb-4">
+                        Invite friends and family to experience God's love in our church community.
+                    </p>
+                    <div class="text-center">
+                        <button onclick="shareChurch()" class="btn btn-outline btn-sm">
+                            <i class="fas fa-share mr-2"></i>Share Now
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Giving Modal -->
+    <div id="giving-modal" class="modal">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold heading-font">Make a Donation</h2>
+                <button onclick="closeGivingModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <form id="giving-form" class="space-y-6">
+                <!-- Giving Type -->
+                <div>
+                    <label class="form-label">Giving Type</label>
+                    <select id="giving-type" class="form-select" required>
+                        <option value="">Select giving type...</option>
+                        <option value="tithe">Tithe</option>
+                        <option value="offering">Offering</option>
+                        <option value="youth-center">Youth Center Project</option>
+                        <option value="food-program">Food Program</option>
+                        <option value="building-fund">Building Fund</option>
+                        <option value="missions">Missions</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                
+                <!-- Amount Selection -->
+                <div>
+                    <label class="form-label">Amount</label>
+                    <div class="grid grid-3 gap-3 mb-3">
+                        <button type="button" class="amount-button" onclick="selectAmount(100)">R100</button>
+                        <button type="button" class="amount-button" onclick="selectAmount(250)">R250</button>
+                        <button type="button" class="amount-button" onclick="selectAmount(500)">R500</button>
+                        <button type="button" class="amount-button" onclick="selectAmount(1000)">R1,000</button>
+                        <button type="button" class="amount-button" onclick="selectAmount(2500)">R2,500</button>
+                        <button type="button" class="amount-button" onclick="selectAmount(5000)">R5,000</button>
+                    </div>
+                    <input type="number" id="custom-amount" class="custom-amount-input w-full" placeholder="Enter custom amount" min="1">
+                </div>
+                
+                <!-- Frequency -->
+                <div>
+                    <label class="form-label">Frequency</label>
+                    <div class="grid grid-3 gap-3">
+                        <div class="payment-method" onclick="selectFrequency('once')">
+                            <div class="payment-icon">
+                                <i class="fas fa-hand-holding-heart"></i>
+                            </div>
+                            <div>
+                                <div class="font-semibold">One Time</div>
+                                <div class="text-sm opacity-75">Single donation</div>
+                            </div>
+                        </div>
+                        <div class="payment-method" onclick="selectFrequency('monthly')">
+                            <div class="payment-icon">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <div>
+                                <div class="font-semibold">Monthly</div>
+                                <div class="text-sm opacity-75">Recurring monthly</div>
+                            </div>
+                        </div>
+                        <div class="payment-method" onclick="selectFrequency('weekly')">
+                            <div class="payment-icon">
+                                <i class="fas fa-sync"></i>
+                            </div>
+                            <div>
+                                <div class="font-semibold">Weekly</div>
+                                <div class="text-sm opacity-75">Recurring weekly</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Payment Method -->
+                <div>
+                    <label class="form-label">Payment Method</label>
+                    <div class="space-y-3">
+                        <div class="payment-method" onclick="selectPaymentMethod('card')">
+                            <div class="payment-icon">
+                                <i class="fas fa-credit-card"></i>
+                            </div>
+                            <div>
+                                <div class="font-semibold">Credit/Debit Card</div>
+                                <div class="text-sm opacity-75">Visa, Mastercard, American Express</div>
+                            </div>
+                        </div>
+                        <div class="payment-method" onclick="selectPaymentMethod('eft')">
+                            <div class="payment-icon">
+                                <i class="fas fa-university"></i>
+                            </div>
+                            <div>
+                                <div class="font-semibold">EFT/Bank Transfer</div>
+                                <div class="text-sm opacity-75">Direct bank transfer</div>
+                            </div>
+                        </div>
+                        <div class="payment-method" onclick="selectPaymentMethod('payfast')">
+                            <div class="payment-icon">
+                                <i class="fas fa-mobile-alt"></i>
+                            </div>
+                            <div>
+                                <div class="font-semibold">PayFast</div>
+                                <div class="text-sm opacity-75">Secure online payment</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Personal Information -->
+                <div class="grid grid-2 gap-4">
+                    <div>
+                        <label for="donor-name" class="form-label">Full Name</label>
+                        <input type="text" id="donor-name" class="form-input" required>
+                    </div>
+                    <div>
+                        <label for="donor-email" class="form-label">Email Address</label>
+                        <input type="email" id="donor-email" class="form-input" required>
+                    </div>
+                </div>
+                
+                <!-- Special Instructions -->
+                <div>
+                    <label for="special-instructions" class="form-label">Special Instructions (Optional)</label>
+                    <textarea id="special-instructions" class="form-textarea" rows="3" placeholder="Any special instructions or dedication for this gift..."></textarea>
+                </div>
+                
+                <!-- Anonymous Option -->
+                <div>
+                    <label class="flex items-center">
+                        <input type="checkbox" id="anonymous" class="mr-2">
+                        <span class="text-sm">Make this donation anonymous</span
+                    </label>
+                </div>
+                
+                <!-- Submit Button -->
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary w-full">
+                        <i class="fas fa-heart mr-2"></i>Complete Donation
+                    </button>
+                </div>
+                
+                <!-- Security Notice -->
+                <div class="text-center text-sm text-gray-600">
+                    <i class="fas fa-lock mr-1"></i>
+                    Your information is secure and encrypted. We never store payment details.
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Bank Details Modal -->
+    <div id="bank-details-modal" class="modal">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold heading-font">Bank Transfer Details</h2>
+                <button onclick="closeBankDetailsModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <div class="space-y-4">
+                <div class="bg-gray-50 p-4 rounded-lg">
+                    <h3 class="font-bold mb-3">The Ekklesia Zion Embassy</h3>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex justify-between">
+                            <span class="font-semibold">Bank:</span>
+                            <span>First National Bank (FNB)</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="font-semibold">Account Number:</span>
+                            <span>62345678901</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="font-semibold">Branch Code:</span>
+                            <span>250655</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="font-semibold">Account Type:</span>
+                            <span>Current Account</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="font-semibold">Reference:</span>
+                            <span>Your Name + "Tithe/Offering"</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-blue-50 p-4 rounded-lg">
+                    <h4 class="font-semibold mb-2 text-blue-800">Important Notes:</h4>
+                    <ul class="text-sm text-blue-700 space-y-1">
+                        <li>• Please use your full name as reference</li>
+                        <li>• Add "Tithe", "Offering", or project name</li>
+                        <li>• Email proof of payment to: zionembassy12@gmail.com</li>
+                        <li>• Include your contact details for receipt</li>
+                    </ul>
+                </div>
+                
+                <div class="text-center">
+                    <button onclick="closeBankDetailsModal()" class="btn btn-primary">
+                        <i class="fas fa-check mr-2"></i>Got It
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="flex items-center space-x-2 mb-4">
+                        <div class="w-10 h-10 bg-secondary rounded-full flex items-center justify-center">
+                            <i class="fas fa-church text-white"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold">The Ekklesia</h3>
+                            <p class="text-xs text-secondary">Zion Embassy</p>
+                        </div>
+                    </div>
+                    <p class="mb-4">A Pentecostal church in Gezina dedicated to creating the kingdom family of God's chosen people and manifesting His glory.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link" aria-label="Facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="social-link" aria-label="YouTube">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                        <a href="#" class="social-link" aria-label="WhatsApp">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3 class="heading-font">Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="sermons.html">Messages</a></li>
+                        <li><a href="events.html">Events</a></li>
+                        <li><a href="ministries.html">Ministries</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3 class="heading-font">Service Times</h3>
+                    <ul class="footer-links">
+                        <li class="flex justify-between">
+                            <span>Sunday</span>
+                            <span>9:00 AM</span>
+                        </li>
+                        <li class="flex justify-between">
+                            <span>Tuesday</span>
+                            <span>6:30 PM</span>
+                        </li>
+                        <li class="flex justify-between">
+                            <span>Friday</span>
+                            <span>6:30 PM</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3 class="heading-font">Contact Info</h3>
+                    <address class="not-italic">
+                        <p class="mb-2">545 Steve Biko Road<br>Gezina, Pretoria</p>
+                        <p class="mb-2">Phone: 073 976 7073</p>
+                        <p class="mb-2">Email: zionembassy12@gmail.com</p>
+                    </address>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <p>&copy; 2024 The Ekklesia Zion Embassy. All rights reserved.</p>
+                    <p class="text-sm">Built with love for God's kingdom</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/main.js"></script>
+    <script>
+        // Giving form state
+        let selectedAmount = null;
+        let selectedFrequency = 'once';
+        let selectedPaymentMethod = null;
+        
+        // Open giving modal
+        function openGivingModal(type) {
+            const modal = document.getElementById('giving-modal');
+            const givingType = document.getElementById('giving-type');
+            
+            // Set the giving type based on button clicked
+            if (type === 'tithe') {
+                givingType.value = 'tithe';
+            } else if (type === 'project') {
+                givingType.value = 'youth-center';
+            } else if (type === 'recurring') {
+                selectFrequency('monthly');
+            } else if (type === 'youth-center' || type === 'food-program') {
+                givingType.value = type;
+            }
+            
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        // Close giving modal
+        function closeGivingModal() {
+            const modal = document.getElementById('giving-modal');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+            
+            // Reset form
+            document.getElementById('giving-form').reset();
+            resetSelections();
+        }
+        
+        // Open bank details modal
+        function openBankDetailsModal() {
+            const modal = document.getElementById('bank-details-modal');
+            modal.classList.add('active');
+        }
+        
+        // Close bank details modal
+        function closeBankDetailsModal() {
+            const modal = document.getElementById('bank-details-modal');
+            modal.classList.remove('active');
+        }
+        
+        // Select amount
+        function selectAmount(amount) {
+            // Remove selected class from all amount buttons
+            document.querySelectorAll('.amount-button').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked button
+            event.target.classList.add('selected');
+            
+            // Clear custom amount input
+            document.getElementById('custom-amount').value = '';
+            
+            selectedAmount = amount;
+        }
+        
+        // Select frequency
+        function selectFrequency(frequency) {
+            // Remove selected class from all frequency options
+            document.querySelectorAll('[onclick^="selectFrequency"]').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked option
+            event.target.closest('.payment-method').classList.add('selected');
+            
+            selectedFrequency = frequency;
+        }
+        
+        // Select payment method
+        function selectPaymentMethod(method) {
+            // Remove selected class from all payment methods
+            document.querySelectorAll('[onclick^="selectPaymentMethod"]').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked option
+            event.target.closest('.payment-method').classList.add('selected');
+            
+            selectedPaymentMethod = method;
+            
+            // Show bank details if EFT is selected
+            if (method === 'eft') {
+                setTimeout(() => {
+                    openBankDetailsModal();
+                }, 500);
+            }
+        }
+        
+        // Reset all selections
+        function resetSelections() {
+            selectedAmount = null;
+            selectedFrequency = 'once';
+            selectedPaymentMethod = null;
+            
+            document.querySelectorAll('.selected').forEach(el => {
+                el.classList.remove('selected');
+            });
+        }
+        
+        // Handle custom amount input
+        document.getElementById('custom-amount').addEventListener('input', function() {
+            if (this.value) {
+                // Remove selected class from amount buttons
+                document.querySelectorAll('.amount-button').forEach(btn => {
+                    btn.classList.remove('selected');
+                });
+                selectedAmount = parseFloat(this.value);
+            }
+        });
+        
+        // Handle giving form submission
+        document.getElementById('giving-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+            
+            // Get selected amount
+            const customAmount = document.getElementById('custom-amount').value;
+            const finalAmount = customAmount ? parseFloat(customAmount) : selectedAmount;
+            
+            if (!finalAmount || finalAmount <= 0) {
+                alert('Please select or enter a valid amount.');
+                return;
+            }
+            
+            if (!selectedPaymentMethod) {
+                alert('Please select a payment method.');
+                return;
+            }
+            
+            // Show loading state
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Processing...';
+            submitBtn.disabled = true;
+            
+            // Simulate processing
+            setTimeout(() => {
+                alert(`Thank you for your generous gift of R${finalAmount}! Your donation is being processed.`);
+                
+                // Reset form and close modal
+                closeGivingModal();
+                
+                // Reset button
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+                
+                console.log('Donation submitted:', {
+                    ...data,
+                    amount: finalAmount,
+                    frequency: selectedFrequency,
+                    paymentMethod: selectedPaymentMethod
+                });
+            }, 2000);
+        });
+        
+        // Share church function
+        function shareChurch() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'The Ekklesia Zion Embassy',
+                    text: 'Join us for worship and fellowship at The Ekklesia Zion Embassy!',
+                    url: window.location.origin
+                });
+            } else {
+                // Fallback for browsers that don't support Web Share API
+                const url = window.location.origin;
+                const text = 'Join us for worship and fellowship at The Ekklesia Zion Embassy! ' + url;
+                
+                if (navigator.clipboard) {
+                    navigator.clipboard.writeText(text).then(() => {
+                        alert('Church information copied to clipboard!');
+                    });
+                } else {
+                    // Further fallback
+                    const textArea = document.createElement('textarea');
+                    textArea.value = text;
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textArea);
+                    alert('Church information copied to clipboard!');
+                }
+            }
+        }
+        
+        // Close modals when clicking outside
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('modal')) {
+                if (e.target.id === 'giving-modal') {
+                    closeGivingModal();
+                } else if (e.target.id === 'bank-details-modal') {
+                    closeBankDetailsModal();
+                }
+            }
+        });
+        
+        // Initialize animations when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Trigger animations for elements in view
+            const animateElements = document.querySelectorAll('.animate-on-scroll');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            });
+            
+            animateElements.forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>

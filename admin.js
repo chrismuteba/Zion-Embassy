@@ -1,0 +1,859 @@
+// Admin Dashboard JavaScript
+// Enhanced functionality for managing church events and projects
+
+class AdminDashboard {
+    constructor() {
+        this.events = [];
+        this.projects = [];
+        this.blogPosts = [];
+        this.currentUser = null;
+        this.contentfulClient = null;
+        this.useContentful = false;
+        this.init();
+    }
+
+    init() {
+        this.loadStoredData();
+        this.setupEventListeners();
+        this.initializeCharts();
+    }
+
+    // Authentication and Session Management
+    checkAuthentication() {
+        const sessionData = localStorage.getItem('adminSession') || sessionStorage.getItem('adminSession');
+        if (!sessionData) {
+            window.location.href = 'admin-login.html';
+            return false;
+        }
+
+        try {
+            const session = JSON.parse(sessionData);
+            this.currentUser = session;
+            
+            // Check session expiry
+            const loginTime = new Date(session.loginTime);
+            const now = new Date();
+            const hoursSinceLogin = (now - loginTime) / (1000 * 60 * 60);
+            const maxHours = session.rememberMe ? 24 * 30 : 24;
+
+            if (hoursSinceLogin > maxHours) {
+                this.logout();
+                return false;
+            }
+
+            document.getElementById('admin-username').textContent = session.username;
+            return true;
+        } catch (e) {
+            this.logout();
+            return false;
+        }
+    }
+
+    logout() {
+        localStorage.removeItem('adminSession');
+        sessionStorage.removeItem('adminSession');
+        window.location.href = 'admin-login.html';
+    }
+
+    // Data Management
+    loadStoredData() {
+        // Load events from localStorage
+        const storedEvents = localStorage.getItem('adminEvents');
+        if (storedEvents) {
+            this.events = JSON.parse(storedEvents);
+        } else {
+            // Default sample events
+            this.events = [
+                {
+                    id: 'youth-camp',
+                    name: 'Youth Summer Camp',
+                    category: 'youth',
+                    startDate: '2023-07-15T09:00',
+                    endDate: '2023-07-17T17:00',
+                    location: 'Camp Grounds',
+                    maxAttendees: 60,
+                    registrations: 45,
+                    status: 'active',
+                    description: 'Three days of powerful worship, inspiring teachings, and outdoor activities.',
+                    requiresRegistration: true,
+                    registrationFee: 150
+                },
+                {
+                    id: 'prayer-meeting',
+                    name: 'Prayer & Fasting',
+                    category: 'worship',
+                    startDate: '2023-08-02T08:00',
+                    endDate: '2023-08-02T12:00',
+                    location: 'Main Sanctuary',
+                    maxAttendees: 50,
+                    registrations: 28,
+                    status: 'active',
+                    description: 'Monthly prayer and fasting session for spiritual breakthrough.',
+                    requiresRegistration: true,
+                    registrationFee: 0
+                }
+            ];
+        }
+
+        // Load projects from localStorage
+        const storedProjects = localStorage.getItem('adminProjects');
+        if (storedProjects) {
+            this.projects = JSON.parse(storedProjects);
+        } else {
+            // Default sample projects
+            this.projects = [
+                {
+                    id: 'youth-center',
+                    name: 'Youth Center Renovation',
+                    category: 'building',
+                    fundingGoal: 100000,
+                    currentAmount: 65000,
+                    targetDate: '2023-12-31',
+                    description: 'Upgrading our youth facilities to provide a safe, modern space for our young people.',
+                    isUrgent: false,
+                    status: 'active',
+                    donations: []
+                },
+                {
+                    id: 'food-program',
+                    name: 'Community Food Program',
+                    category: 'outreach',
+                    fundingGoal: 50000,
+                    currentAmount: 20000,
+                    targetDate: '2023-11-30',
+                    description: 'Providing weekly food packages to families in need within our community.',
+                    isUrgent: true,
+                    status: 'active',
+                    donations: []
+                }
+            ];
+        }
+
+        // Load blog posts from localStorage
+        const storedBlogPosts = localStorage.getItem('adminBlogPosts');
+        if (storedBlogPosts) {
+            this.blogPosts = JSON.parse(storedBlogPosts);
+        } else {
+            // Default sample blog posts
+            this.blogPosts = [
+                {
+                    id: 'welcome-post',
+                    title: 'Welcome to Our New Website',
+                    slug: 'welcome-to-our-new-website',
+                    excerpt: 'We\'re excited to launch our new church website with improved features...',
+                    content: 'We\'re thrilled to announce the launch of our new church website! This platform will help us stay connected as a community and share important updates, events, and spiritual content.',
+                    category: 'announcements',
+                    status: 'published',
+                    tags: ['website', 'announcement', 'community'],
+                    featuredImage: '',
+                    publishedAt: '2023-07-20T10:00:00Z',
+                    createdAt: '2023-07-20T09:00:00Z',
+                    createdBy: 'admin'
+                },
+                {
+                    id: 'youth-camp-post',
+                    title: 'Youth Summer Camp Highlights',
+                    slug: 'youth-summer-camp-highlights',
+                    excerpt: 'Our recent youth summer camp was filled with amazing moments of growth...',
+                    content: 'Our youth summer camp was an incredible experience filled with worship, fellowship, and spiritual growth. The young people had amazing testimonies to share.',
+                    category: 'events',
+                    status: 'draft',
+                    tags: ['youth', 'camp', 'testimonies'],
+                    featuredImage: '',
+                    publishedAt: null,
+                    createdAt: '2023-07-18T14:00:00Z',
+                    createdBy: 'admin'
+                }
+            ];
+        }
+    }
+
+    saveData() {
+        localStorage.setItem('adminEvents', JSON.stringify(this.events));
+        localStorage.setItem('adminProjects', JSON.stringify(this.projects));
+        localStorage.setItem('adminBlogPosts', JSON.stringify(this.blogPosts));
+    }
+
+    // Event Management
+    createEvent(eventData) {
+        const newEvent = {
+            id: this.generateId(),
+            ...eventData,
+            registrations: 0,
+            status: 'draft',
+            createdAt: new Date().toISOString(),
+            createdBy: this.currentUser.username
+        };
+
+        this.events.push(newEvent);
+        this.saveData();
+        this.refreshEventTable();
+        this.updateDashboardStats();
+        
+        return newEvent;
+    }
+
+    updateEvent(eventId, eventData) {
+        const eventIndex = this.events.findIndex(e => e.id === eventId);
+        if (eventIndex !== -1) {
+            this.events[eventIndex] = { ...this.events[eventIndex], ...eventData };
+            this.saveData();
+            this.refreshEventTable();
+            return this.events[eventIndex];
+        }
+        return null;
+    }
+
+    deleteEvent(eventId) {
+        this.events = this.events.filter(e => e.id !== eventId);
+        this.saveData();
+        this.refreshEventTable();
+        this.updateDashboardStats();
+    }
+
+    getEvent(eventId) {
+        return this.events.find(e => e.id === eventId);
+    }
+
+    // Blog Management
+    createBlogPost(blogData) {
+        const newPost = {
+            id: this.generateId(),
+            ...blogData,
+            slug: blogData.slug || this.generateSlug(blogData.title),
+            tags: typeof blogData.tags === 'string' ? blogData.tags.split(',').map(tag => tag.trim()) : blogData.tags || [],
+            publishedAt: blogData.status === 'published' ? new Date().toISOString() : null,
+            createdAt: new Date().toISOString(),
+            createdBy: this.currentUser.username
+        };
+
+        this.blogPosts.push(newPost);
+        this.saveData();
+        this.refreshBlogPostsList();
+        this.updateDashboardStats();
+        
+        return newPost;
+    }
+
+    updateBlogPost(postId, blogData) {
+        const postIndex = this.blogPosts.findIndex(p => p.id === postId);
+        if (postIndex !== -1) {
+            const existingPost = this.blogPosts[postIndex];
+            const updatedPost = {
+                ...existingPost,
+                ...blogData,
+                tags: typeof blogData.tags === 'string' ? blogData.tags.split(',').map(tag => tag.trim()) : blogData.tags || existingPost.tags,
+                publishedAt: blogData.status === 'published' && !existingPost.publishedAt ? new Date().toISOString() : existingPost.publishedAt
+            };
+            
+            this.blogPosts[postIndex] = updatedPost;
+            this.saveData();
+            this.refreshBlogPostsList();
+            return updatedPost;
+        }
+        return null;
+    }
+
+    deleteBlogPost(postId) {
+        this.blogPosts = this.blogPosts.filter(p => p.id !== postId);
+        this.saveData();
+        this.refreshBlogPostsList();
+        this.updateDashboardStats();
+    }
+
+    getBlogPost(postId) {
+        return this.blogPosts.find(p => p.id === postId);
+    }
+
+    generateSlug(title) {
+        return title.toLowerCase()
+            .replace(/[^a-z0-9 -]/g, '')
+            .replace(/\s+/g, '-')
+            .replace(/-+/g, '-')
+            .trim('-');
+    }
+
+    // Project Management
+    createProject(projectData) {
+        const newProject = {
+            id: this.generateId(),
+            ...projectData,
+            currentAmount: 0,
+            status: 'active',
+            donations: [],
+            createdAt: new Date().toISOString(),
+            createdBy: this.currentUser.username
+        };
+
+        this.projects.push(newProject);
+        this.saveData();
+        this.refreshProjectsDisplay();
+        this.updateDashboardStats();
+        
+        return newProject;
+    }
+
+    updateProject(projectId, projectData) {
+        const projectIndex = this.projects.findIndex(p => p.id === projectId);
+        if (projectIndex !== -1) {
+            this.projects[projectIndex] = { ...this.projects[projectIndex], ...projectData };
+            this.saveData();
+            this.refreshProjectsDisplay();
+            return this.projects[projectIndex];
+        }
+        return null;
+    }
+
+    addDonation(projectId, donationData) {
+        const project = this.projects.find(p => p.id === projectId);
+        if (project) {
+            const donation = {
+                id: this.generateId(),
+                ...donationData,
+                timestamp: new Date().toISOString()
+            };
+            
+            project.donations.push(donation);
+            project.currentAmount += parseFloat(donationData.amount);
+            this.saveData();
+            this.refreshProjectsDisplay();
+            this.updateDashboardStats();
+            
+            return donation;
+        }
+        return null;
+    }
+
+    // UI Updates
+    refreshEventTable() {
+        const tbody = document.getElementById('events-table-body');
+        if (!tbody) return;
+
+        tbody.innerHTML = '';
+        
+        this.events.forEach(event => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${event.name}</td>
+                <td>${this.formatDate(event.startDate)}</td>
+                <td>${this.capitalizeFirst(event.category)}</td>
+                <td>${event.registrations}/${event.maxAttendees || 'Unlimited'}</td>
+                <td><span class="status-badge status-${event.status}">${this.capitalizeFirst(event.status)}</span></td>
+                <td>
+                    <button class="btn-secondary btn-sm" onclick="adminDashboard.editEvent('${event.id}')">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="btn-secondary btn-sm" onclick="adminDashboard.viewRegistrations('${event.id}')">
+                        <i class="fas fa-users"></i>
+                    </button>
+                    <button class="btn-secondary btn-sm" onclick="adminDashboard.deleteEvent('${event.id}')" style="color: #dc2626;">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </td>
+            `;
+            tbody.appendChild(row);
+        });
+    }
+
+    refreshProjectsDisplay() {
+        const projectsContainer = document.querySelector('#projects-section .grid');
+        if (!projectsContainer) return;
+
+        projectsContainer.innerHTML = '';
+        
+        this.projects.forEach(project => {
+            const progressPercentage = (project.currentAmount / project.fundingGoal) * 100;
+            const projectCard = document.createElement('div');
+            projectCard.className = 'dashboard-card';
+            projectCard.innerHTML = `
+                <h3 class="text-lg font-bold mb-4">${project.name}</h3>
+                <p class="text-gray-600 mb-4">${project.description}</p>
+                
+                <div class="mb-4">
+                    <div class="flex justify-between text-sm mb-2">
+                        <span>Progress</span>
+                        <span>R${project.currentAmount.toLocaleString()} / R${project.fundingGoal.toLocaleString()}</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: ${progressPercentage}%"></div>
+                    </div>
+                </div>
+                
+                <div class="flex gap-2">
+                    <button class="btn-secondary" onclick="adminDashboard.editProject('${project.id}')">
+                        <i class="fas fa-edit"></i>
+                        Edit
+                    </button>
+                    <button class="btn-secondary" onclick="adminDashboard.viewDonations('${project.id}')">
+                        <i class="fas fa-donate"></i>
+                        Donations
+                    </button>
+                </div>
+            `;
+            projectsContainer.appendChild(projectCard);
+        });
+    }
+
+    refreshBlogPostsList() {
+        const blogPostsList = document.getElementById('blogPostsList');
+        if (!blogPostsList) return;
+
+        const postsContainer = blogPostsList.querySelector('.space-y-4') || blogPostsList;
+        postsContainer.innerHTML = '';
+        
+        this.blogPosts.forEach(post => {
+            const postElement = document.createElement('div');
+            postElement.className = 'border border-gray-200 rounded-lg p-4';
+            postElement.innerHTML = `
+                <div class="flex justify-between items-start">
+                    <div class="flex-1">
+                        <h4 class="font-bold text-lg mb-2">${post.title}</h4>
+                        <p class="text-gray-600 mb-2">${post.excerpt || 'No excerpt available'}</p>
+                        <div class="flex items-center gap-4 text-sm text-gray-500">
+                            <span><i class="fas fa-calendar mr-1"></i>${this.formatDate(post.createdAt)}</span>
+                            <span><i class="fas fa-tag mr-1"></i>${this.capitalizeFirst(post.category)}</span>
+                            <span class="status-badge status-${post.status}">${this.capitalizeFirst(post.status)}</span>
+                        </div>
+                    </div>
+                    <div class="flex gap-2 ml-4">
+                        <button class="btn-secondary btn-sm" onclick="adminDashboard.editBlogPost('${post.id}')">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn-secondary btn-sm" onclick="adminDashboard.deleteBlogPost('${post.id}')" style="color: #dc2626;">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+            postsContainer.appendChild(postElement);
+        });
+    }
+
+    updateDashboardStats() {
+        // Update stats cards
+        const upcomingEvents = this.events.filter(e => new Date(e.startDate) > new Date()).length;
+        const activeProjects = this.projects.filter(p => p.status === 'active').length;
+        const totalFundsRaised = this.projects.reduce((sum, p) => sum + p.currentAmount, 0);
+        const totalRegistrations = this.events.reduce((sum, e) => sum + e.registrations, 0);
+
+        const statCards = document.querySelectorAll('.stat-card .stat-number');
+        if (statCards.length >= 4) {
+            statCards[0].textContent = upcomingEvents;
+            statCards[1].textContent = activeProjects;
+            statCards[2].textContent = `R${Math.round(totalFundsRaised / 1000)}K`;
+            statCards[3].textContent = totalRegistrations;
+        }
+    }
+
+    // Event Handlers
+    setupEventListeners() {
+        // Event form submission
+        const eventForm = document.getElementById('event-form');
+        if (eventForm) {
+            eventForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const formData = new FormData(e.target);
+                const eventData = Object.fromEntries(formData);
+                
+                // Convert checkbox to boolean
+                eventData.requiresRegistration = formData.has('requiresRegistration');
+                
+                this.createEvent(eventData);
+                this.showNotification('Event created successfully!', 'success');
+                this.closeModal('event-modal');
+                e.target.reset();
+            });
+        }
+
+        // Project form submission
+        const projectForm = document.getElementById('project-form');
+        if (projectForm) {
+            projectForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const formData = new FormData(e.target);
+                const projectData = Object.fromEntries(formData);
+                
+                // Convert checkbox to boolean and numbers
+                projectData.isUrgent = formData.has('isUrgent');
+                projectData.fundingGoal = parseFloat(projectData.fundingGoal);
+                
+                this.createProject(projectData);
+                this.showNotification('Project created successfully!', 'success');
+                this.closeModal('project-modal');
+                e.target.reset();
+            });
+        }
+
+        // Blog form submission
+        const blogForm = document.getElementById('blogPostForm');
+        if (blogForm) {
+            blogForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                const blogData = {
+                    title: document.getElementById('blogTitle').value,
+                    slug: document.getElementById('blogSlug').value,
+                    excerpt: document.getElementById('blogExcerpt').value,
+                    content: document.getElementById('blogContent').value,
+                    category: document.getElementById('blogCategory').value,
+                    status: document.getElementById('blogStatus').value,
+                    tags: document.getElementById('blogTags').value,
+                    featuredImage: document.getElementById('blogFeaturedImage').value
+                };
+
+                const postId = document.getElementById('blogPostId').value;
+                
+                if (postId) {
+                    // Update existing post
+                    this.updateBlogPost(postId, blogData);
+                    this.showNotification('Blog post updated successfully!', 'success');
+                } else {
+                    // Create new post
+                    this.createBlogPost(blogData);
+                    this.showNotification('Blog post created successfully!', 'success');
+                }
+                
+                this.hideBlogForm();
+                e.target.reset();
+            });
+        }
+
+        // Auto-generate slug from title
+        const blogTitleInput = document.getElementById('blogTitle');
+        const blogSlugInput = document.getElementById('blogSlug');
+        if (blogTitleInput && blogSlugInput) {
+            blogTitleInput.addEventListener('input', (e) => {
+                if (!blogSlugInput.value || blogSlugInput.dataset.autoGenerated === 'true') {
+                    blogSlugInput.value = this.generateSlug(e.target.value);
+                    blogSlugInput.dataset.autoGenerated = 'true';
+                }
+            });
+            
+            blogSlugInput.addEventListener('input', () => {
+                blogSlugInput.dataset.autoGenerated = 'false';
+            });
+        }
+    }
+
+    // Modal Management
+    openModal(modalId) {
+        const modal = document.getElementById(modalId);
+        if (modal) {
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+    }
+
+    closeModal(modalId) {
+        const modal = document.getElementById(modalId);
+        if (modal) {
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+    }
+
+    // Action Methods
+    editEvent(eventId) {
+        const event = this.getEvent(eventId);
+        if (event) {
+            // Populate form with event data
+            const form = document.getElementById('event-form');
+            if (form) {
+                Object.keys(event).forEach(key => {
+                    const input = form.querySelector(`[name="${key}"]`);
+                    if (input) {
+                        if (input.type === 'checkbox') {
+                            input.checked = event[key];
+                        } else {
+                            input.value = event[key];
+                        }
+                    }
+                });
+                
+                // Change form to edit mode
+                form.dataset.editId = eventId;
+                document.querySelector('#event-modal h2').textContent = 'Edit Event';
+                this.openModal('event-modal');
+            }
+        }
+    }
+
+    viewRegistrations(eventId) {
+        const event = this.getEvent(eventId);
+        if (event) {
+            alert(`Registrations for "${event.name}": ${event.registrations}/${event.maxAttendees || 'Unlimited'}\n\nThis would open a detailed registrations view in a full implementation.`);
+        }
+    }
+
+    editProject(projectId) {
+        const project = this.projects.find(p => p.id === projectId);
+        if (project) {
+            // Similar to editEvent but for projects
+            alert(`Edit project: ${project.name}\n\nThis would open the project edit form in a full implementation.`);
+        }
+    }
+
+    viewDonations(projectId) {
+        const project = this.projects.find(p => p.id === projectId);
+        if (project) {
+            const donationCount = project.donations.length;
+            alert(`Donations for "${project.name}": ${donationCount} donations totaling R${project.currentAmount.toLocaleString()}\n\nThis would open a detailed donations view in a full implementation.`);
+        }
+    }
+
+    // Blog Action Methods
+    editBlogPost(postId) {
+        const post = this.getBlogPost(postId);
+        if (post) {
+            // Populate form with post data
+            document.getElementById('blogPostId').value = post.id;
+            document.getElementById('blogTitle').value = post.title;
+            document.getElementById('blogSlug').value = post.slug;
+            document.getElementById('blogExcerpt').value = post.excerpt || '';
+            document.getElementById('blogContent').value = post.content;
+            document.getElementById('blogCategory').value = post.category;
+            document.getElementById('blogStatus').value = post.status;
+            document.getElementById('blogTags').value = Array.isArray(post.tags) ? post.tags.join(', ') : post.tags || '';
+            document.getElementById('blogFeaturedImage').value = post.featuredImage || '';
+            
+            // Change form title
+            document.getElementById('blogFormTitle').textContent = 'Edit Blog Post';
+            
+            // Show form
+            this.showBlogForm();
+        }
+    }
+
+    showBlogForm() {
+        const blogForm = document.getElementById('blogForm');
+        if (blogForm) {
+            blogForm.style.display = 'block';
+            blogForm.scrollIntoView({ behavior: 'smooth' });
+        }
+    }
+
+    hideBlogForm() {
+        const blogForm = document.getElementById('blogForm');
+        if (blogForm) {
+            blogForm.style.display = 'none';
+            
+            // Reset form
+            document.getElementById('blogPostForm').reset();
+            document.getElementById('blogPostId').value = '';
+            document.getElementById('blogFormTitle').textContent = 'Create New Blog Post';
+        }
+    }
+
+    // Utility Methods
+    generateId() {
+        return 'id_' + Math.random().toString(36).substr(2, 9);
+    }
+
+    formatDate(dateString) {
+        const date = new Date(dateString);
+        return date.toLocaleDateString() + ' ' + date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+    }
+
+    capitalizeFirst(str) {
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+
+    showNotification(message, type = 'info') {
+        // Create notification element
+        const notification = document.createElement('div');
+        notification.className = `notification ${type}`;
+        notification.innerHTML = `
+            <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-triangle' : 'info-circle'} mr-2"></i>
+            ${message}
+        `;
+        
+        document.body.appendChild(notification);
+        
+        // Show notification
+        setTimeout(() => notification.classList.add('show'), 100);
+        
+        // Hide notification after 3 seconds
+        setTimeout(() => {
+            notification.classList.remove('show');
+            setTimeout(() => document.body.removeChild(notification), 300);
+        }, 3000);
+    }
+
+    // Analytics and Charts (placeholder for future implementation)
+    initializeCharts() {
+        // This would initialize charts for analytics
+        console.log('Charts initialized');
+    }
+
+    // Export/Import functionality
+    exportData() {
+        const data = {
+            events: this.events,
+            projects: this.projects,
+            blogPosts: this.blogPosts,
+            exportDate: new Date().toISOString()
+        };
+        
+        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `zion-embassy-admin-backup-${new Date().toISOString().split('T')[0]}.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
+
+    importData(file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            try {
+                const data = JSON.parse(e.target.result);
+                if (data.events && data.projects) {
+                    this.events = data.events;
+                    this.projects = data.projects;
+                    if (data.blogPosts) {
+                        this.blogPosts = data.blogPosts;
+                    }
+                    this.saveData();
+                    this.refreshEventTable();
+                    this.refreshProjectsDisplay();
+                    this.refreshBlogPostsList();
+                    this.updateDashboardStats();
+                    this.showNotification('Data imported successfully!', 'success');
+                } else {
+                    throw new Error('Invalid data format');
+                }
+            } catch (error) {
+                this.showNotification('Error importing data: ' + error.message, 'error');
+            }
+        };
+        reader.readAsText(file);
+    }
+}
+
+// Global instance
+let adminDashboard;
+
+// Initialize when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    adminDashboard = new AdminDashboard();
+    
+    // Check authentication
+    if (!adminDashboard.checkAuthentication()) {
+        return;
+    }
+    
+    // Update current time
+    function updateCurrentTime() {
+        const now = new Date();
+        const timeString = now.toLocaleString();
+        const timeElement = document.getElementById('current-time');
+        if (timeElement) {
+            timeElement.textContent = timeString;
+        }
+    }
+    
+    updateCurrentTime();
+    setInterval(updateCurrentTime, 1000);
+    
+    // Load initial data
+    adminDashboard.refreshEventTable();
+    adminDashboard.refreshProjectsDisplay();
+    adminDashboard.refreshBlogPostsList();
+    adminDashboard.updateDashboardStats();
+});
+
+// Global functions for HTML onclick handlers
+function showSection(sectionName) {
+    // Hide all sections
+    document.querySelectorAll('.content-section').forEach(section => {
+        section.classList.remove('active');
+    });
+    
+    // Show selected section
+    const targetSection = document.getElementById(sectionName + '-section');
+    if (targetSection) {
+        targetSection.classList.add('active');
+    }
+    
+    // Update navigation
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.classList.remove('active');
+    });
+    
+    // Find and activate the clicked nav link
+    const clickedLink = event.target.closest('.nav-link');
+    if (clickedLink) {
+        clickedLink.classList.add('active');
+    }
+}
+
+function openModal(modalId) {
+    if (adminDashboard) {
+        adminDashboard.openModal(modalId);
+    }
+}
+
+function closeModal(modalId) {
+    if (adminDashboard) {
+        adminDashboard.closeModal(modalId);
+    }
+}
+
+function toggleSidebar() {
+    const sidebar = document.getElementById('admin-sidebar');
+    const main = document.getElementById('admin-main');
+    
+    if (sidebar && main) {
+        sidebar.classList.toggle('mobile-open');
+        main.classList.toggle('expanded');
+    }
+}
+
+function logout() {
+    if (confirm('Are you sure you want to logout?')) {
+        if (adminDashboard) {
+            adminDashboard.logout();
+        }
+    }
+}
+
+// Blog Management Global Functions
+function showBlogForm() {
+    if (adminDashboard) {
+        adminDashboard.showBlogForm();
+    }
+}
+
+function hideBlogForm() {
+    if (adminDashboard) {
+        adminDashboard.hideBlogForm();
+    }
+}
+
+function editBlogPost(postId) {
+    if (adminDashboard) {
+        adminDashboard.editBlogPost(postId);
+    }
+}
+
+function deleteBlogPost(postId) {
+    if (confirm('Are you sure you want to delete this blog post?')) {
+        if (adminDashboard) {
+            adminDashboard.deleteBlogPost(postId);
+            adminDashboard.showNotification('Blog post deleted successfully!', 'success');
+        }
+    }
+}
+
+function filterBlogPosts() {
+    // This would filter blog posts based on category and status
+    console.log('Filter blog posts functionality would be implemented here');
+}
+
+function searchBlogPosts() {
+    // This would search blog posts based on the search input
+    console.log('Search blog posts functionality would be implemented here');
+}
