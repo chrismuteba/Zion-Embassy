@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - The Ekklesia Zion Embassy</title>
+    <meta name="description" content="Get in touch with The Ekklesia Zion Embassy. Find our location, service times, contact information, and send us a message.">
+    
+    <!-- External CSS -->
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/styles.css">
+    
+    <style>
+        .contact-hero {
+            background: linear-gradient(rgba(10, 36, 99, 0.8), rgba(10, 36, 99, 0.8)),
+                        url('https://images.unsplash.com/photo-1423666639041-f56000c27a9a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        
+        .contact-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .contact-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .contact-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--secondary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+        
+        .map-container {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .service-time-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid var(--secondary);
+        }
+        
+        .directions-card {
+            background: var(--primary);
+            color: white;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .contact-form {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .form-success {
+            background: #10b981;
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+        
+        .form-error {
+            background: #ef4444;
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+        
+        .staff-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .staff-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .staff-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 1rem;
+            border: 3px solid var(--secondary);
+        }
+        
+        .first-visitor-card {
+            background: linear-gradient(135deg, var(--primary) 0%, #1e40af 100%);
+            color: white;
+            border-radius: 16px;
+            padding: 2.5rem;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(10, 36, 99, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .first-visitor-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        
+        .visitor-header {
+            position: relative;
+            z-index: 2;
+            margin-bottom: 2rem;
+        }
+        
+        .visitor-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--secondary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2rem;
+            color: var(--primary);
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+        }
+        
+        .welcome-text {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            opacity: 0.95;
+        }
+        
+        .visitor-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .compact-visitor-card {
+            background: linear-gradient(135deg, var(--primary) 0%, #1e40af 100%);
+            color: white;
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(10, 36, 99, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .compact-visitor-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        
+        .compact-visitor-features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        @media (max-width: 992px) {
+            .compact-visitor-features {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .compact-visitor-features {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            text-align: left;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .feature-item:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+        
+        .feature-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--secondary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: var(--primary);
+            flex-shrink: 0;
+        }
+        
+        .feature-content h4 {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            font-size: 1.1rem;
+        }
+        
+        .feature-content p {
+            font-size: 0.95rem;
+            opacity: 0.9;
+            line-height: 1.4;
+        }
+        
+        .visitor-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .visitor-actions .btn {
+            min-width: 180px;
+        }
+        
+        .btn-outline {
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            color: white;
+            background: transparent;
+        }
+        
+        .btn-outline:hover {
+            background: white;
+            color: var(--primary);
+            border-color: white;
+        }
+        
+        /* Service times section height matching */
+        .service-times-section {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .service-times-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        @media (max-width: 768px) {
+            .visitor-features {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .feature-item {
+                padding: 0.75rem;
+            }
+            
+            .visitor-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .visitor-actions .btn {
+                width: 100%;
+                max-width: 280px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-white text-gray-800">
+    <!-- Header/Navigation -->
+    <header class="header">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">
+                    <img src="logo.jpg" alt="The Ekklesia Zion Embassy Logo" class="logo-image">
+                </div>
+                <div class="logo-text">
+                    <h1 class="heading-font">The Ekklesia</h1>
+                    <p>Zion Embassy</p>
+                </div>
+            </a>
+            
+            <nav class="nav-menu">
+                <div class="nav-item">
+                    <a href="index.html" class="nav-link">Home</a>
+                </div>
+                <div class="nav-item">
+                    <a href="#" class="nav-link">
+                        About <i class="fas fa-chevron-down text-xs"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <a href="about.html" class="dropdown-link">Our Story</a>
+                        <a href="about.html#mission" class="dropdown-link">Mission & Vision</a>
+                        <a href="about.html#beliefs" class="dropdown-link">Our Beliefs</a>
+                        <a href="about.html#leadership" class="dropdown-link">Leadership</a>
+                    </div>
+                </div>
+                <div class="nav-item">
+                    <a href="sermons.html" class="nav-link">Messages</a>
+                </div>
+                <div class="nav-item">
+                    <a href="events.html" class="nav-link">Events</a>
+                </div>
+                <div class="nav-item">
+                    <a href="contact.html" class="nav-link">Contact</a>
+                </div>
+                <div class="nav-item">
+                    <a href="give.html" class="nav-link btn btn-primary" style="padding: 0.5rem 1rem; border-radius: 25px;">Give</a>
+                </div>
+            </nav>
+            
+            <button class="mobile-menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <section class="bg-primary" style="color: white; padding: 5rem 0;">
+        <div class="container">
+            <div style="text-align: center;" class="animate-on-load">
+                <h1 style="font-size: clamp(2.25rem, 5vw, 3rem); font-weight: bold; margin-bottom: 1rem;" class="heading-font">Contact Us</h1>
+                <p style="font-size: 1.25rem; max-width: 48rem; margin: 0 auto;">
+                    We'd love to hear from you! Reach out with any questions, prayer requests, or to learn more about our church family.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Contact Info -->
+    <section class="section bg-gray-50">
+        <div class="container">
+            <div class="grid grid-3 gap-8">
+                <div class="contact-card animate-on-scroll">
+                    <div class="contact-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2 text-center heading-font">Visit Us</h3>
+                    <p class="text-center text-gray-600 mb-4">
+                        545 Steve Biko Road<br>
+                        Gezina, Pretoria<br>
+                        (Reference: Avbob on Steve Biko Road)
+                    </p>
+                    <div class="text-center">
+                        <a href="https://maps.google.com/?q=545+Steve+Biko+Road,+Gezina,+Pretoria" 
+                           target="_blank" 
+                           class="btn btn-outline btn-sm">
+                            <i class="fas fa-directions mr-2"></i>Get Directions
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="contact-card animate-on-scroll">
+                    <div class="contact-icon">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2 text-center heading-font">Call Us</h3>
+                    <p class="text-center text-gray-600 mb-4">
+                        <strong>073 976 7073</strong><br>
+                        Miss Narshley - Admin<br>
+                        Monday - Friday: 9:00 AM - 5:00 PM
+                    </p>
+                    <div class="text-center">
+                        <a href="tel:0739767073" class="btn btn-outline btn-sm">
+                            <i class="fas fa-phone mr-2"></i>Call Now
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="contact-card animate-on-scroll">
+                    <div class="contact-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2 text-center heading-font">Email Us</h3>
+                    <p class="text-center text-gray-600 mb-4">
+                        <strong>zionembassy12@gmail.com</strong><br>
+                        We typically respond within 24 hours<br>
+                        For urgent matters, please call
+                    </p>
+                    <div class="text-center">
+                        <a href="mailto:zionembassy12@gmail.com" class="btn btn-outline btn-sm">
+                            <i class="fas fa-envelope mr-2"></i>Send Email
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Service Times & Contact Form -->
+    <section class="section">
+        <div class="container">
+            <!-- Two column layout for Service Times and Contact Form -->
+            <div class="grid grid-2 gap-12">
+                <!-- Service Times -->
+                <div class="animate-on-scroll service-times-section">
+                    <h2 class="text-3xl font-bold mb-6 heading-font text-primary">Service Times</h2>
+                    
+                    <div class="space-y-4 service-times-content">
+                        <div class="service-time-card">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <h3 class="text-xl font-bold heading-font">Sunday Worship</h3>
+                                    <p class="text-gray-600">Main worship service with preaching, worship, and fellowship</p>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-2xl font-bold text-secondary">9:00 AM</div>
+                                    <div class="text-sm text-gray-600">Every Sunday</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="service-time-card">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <h3 class="text-xl font-bold heading-font">Bible Study</h3>
+                                    <p class="text-gray-600">Interactive Bible study and discussion</p>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-2xl font-bold text-secondary">6:30 PM</div>
+                                    <div class="text-sm text-gray-600">Every Tuesday</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="service-time-card">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <h3 class="text-xl font-bold heading-font">Prayer Meeting</h3>
+                                    <p class="text-gray-600">Corporate prayer and worship</p>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-2xl font-bold text-secondary">6:30 PM</div>
+                                    <div class="text-sm text-gray-600">Every Friday</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Contact Form -->
+                <div class="animate-on-scroll">
+                    <h2 class="text-3xl font-bold mb-6 heading-font text-primary">Send Us a Message</h2>
+                    
+                    <div class="contact-form">
+                        <div id="form-success" class="form-success">
+                            <i class="fas fa-check-circle mr-2"></i>
+                            Thank you for your message! We'll get back to you soon.
+                        </div>
+                        
+                        <div id="form-error" class="form-error">
+                            <i class="fas fa-exclamation-circle mr-2"></i>
+                            There was an error sending your message. Please try again.
+                        </div>
+                        
+                        <form id="contact-form">
+                            <div class="form-group">
+                                <label for="name" class="form-label">Your Name *</label>
+                                <input type="text" id="name" name="name" class="form-input" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="email" class="form-label">Email Address *</label>
+                                <input type="email" id="email" name="email" class="form-input" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="phone" class="form-label">Phone Number</label>
+                                <input type="tel" id="phone" name="phone" class="form-input">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="subject" class="form-label">Subject *</label>
+                                <select id="subject" name="subject" class="form-select" required>
+                                    <option value="">Choose a subject...</option>
+                                    <option value="general">General Inquiry</option>
+                                    <option value="prayer">Prayer Request</option>
+                                    <option value="ministry">Ministry Question</option>
+                                    <option value="event">Event Information</option>
+                                    <option value="pastoral">Pastoral Care</option>
+                                    <option value="volunteer">Volunteer Opportunities</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="message" class="form-label">Your Message *</label>
+                                <textarea id="message" name="message" rows="5" class="form-textarea" required placeholder="Please share your message, question, or prayer request..."></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="flex items-center">
+                                    <input type="checkbox" id="newsletter" name="newsletter" class="mr-2">
+                                    <span class="text-sm">I'd like to receive updates about church events and news</span>
+                                </label>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary w-full">
+                                <i class="fas fa-paper-plane mr-2"></i>Send Message
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Add space before First Time Visitor section -->
+            <div style="height: 80px;"></div>
+            
+            <!-- First Time Visitor Section (more compact, horizontal layout) -->
+            <div class="animate-on-scroll">
+                <div class="compact-visitor-card">
+                    <div class="visitor-header">
+                        <div class="visitor-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-3 heading-font">First Time Visitor?</h3>
+                        <p class="welcome-text mb-4">We're excited to welcome you into our church family! Here's what you can expect:</p>
+                    </div>
+                    
+                    <div class="compact-visitor-features">
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-handshake"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h4>Warm Welcome</h4>
+                                <p>Friendly greeters at the entrance</p>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-tshirt"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h4>Come As You Are</h4>
+                                <p>Casual dress code</p>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-child"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h4>Family Friendly</h4>
+                                <p>Children's programs available</p>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-parking"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h4>Free Parking</h4>
+                                <p>Ample parking space available</p>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h4>Service Duration</h4>
+                                <p>Services last about 90 minutes</p>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-coffee"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h4>Fellowship Time</h4>
+                                <p>Stay for refreshments after service</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- "Join Us" button removed -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Map Section -->
+    <section class="section bg-gray-50">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title heading-font">Find Us on the Map</h2>
+                <div class="section-divider"></div>
+                <p class="section-description">
+                    Located on Steve Biko Road in Gezina, we're easy to find with ample parking available.
+                </p>
+            </div>
+            
+            <div class="map-container animate-on-scroll">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3584.53636047318!2d28.12837131502898!3d-26.03918898350263!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1e9573b5f0b4f3d9%3A0x3a6a1e5b1a0a0a0a!2s545%20Steve%20Biko%20Rd%2C%20Gezina%2C%20Pretoria%2C%200001!5e0!3m2!1sen!2sza!4v1629999999999!5m2!1sen!2sza" 
+                    width="100%" 
+                    height="450" 
+                    style="border:0;" 
+                    allowfullscreen="" 
+                    loading="lazy">
+                </iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Team section removed -->
+
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+                        <div style="width: 2.5rem; height: 2.5rem; background-color: var(--secondary); border-radius: 50%; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                            <img src="logo.jpg" alt="The Ekklesia Zion Embassy Logo" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <div>
+                            <h3 style="font-weight: bold;">The Ekklesia</h3>
+                            <p style="font-size: 0.75rem; color: var(--secondary);">Zion Embassy</p>
+                        </div>
+                    </div>
+                    <p style="margin-bottom: 1rem;">A Pentecostal church in Gezina dedicated to creating the kingdom family of God's chosen people and manifesting His glory.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link" aria-label="Facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="social-link" aria-label="YouTube">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                        <a href="#" class="social-link" aria-label="WhatsApp">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3 class="heading-font">Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="sermons.html">Messages</a></li>
+                        <li><a href="events.html">Events</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3 class="heading-font">Service Times</h3>
+                    <ul class="footer-links">
+                        <li style="display: flex; justify-content: space-between;">
+                            <span>Sunday</span>
+                            <span>9:00 AM</span>
+                        </li>
+                        <li style="display: flex; justify-content: space-between;">
+                            <span>Tuesday</span>
+                            <span>6:30 PM</span>
+                        </li>
+                        <li style="display: flex; justify-content: space-between;">
+                            <span>Friday</span>
+                            <span>6:30 PM</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3 class="heading-font">Contact Info</h3>
+                    <address style="font-style: normal;">
+                        <p style="margin-bottom: 0.5rem;">545 Steve Biko Road<br>Gezina, Pretoria</p>
+                        <p style="margin-bottom: 0.5rem;">Phone: 073 976 7073</p>
+                        <p style="margin-bottom: 0.5rem;">Email: zionembassy12@gmail.com</p>
+                    </address>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+                    <p>&copy; 2024 The Ekklesia Zion Embassy. All rights reserved.</p>
+                    <div style="display: flex; gap: 1.5rem; margin-top: 1rem;">
+                        <a href="#" style="color: white; text-decoration: none; transition: color 0.3s ease;" onmouseover="this.style.color='var(--secondary)'" onmouseout="this.style.color='white'">Privacy Policy</a>
+                        <a href="#" style="color: white; text-decoration: none; transition: color 0.3s ease;" onmouseover="this.style.color='var(--secondary)'" onmouseout="this.style.color='white'">Terms of Use</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/main.js"></script>
+    <script>
+        // Contact Form Handling
+        document.getElementById('contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+            
+            // Show loading state
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Sending...';
+            submitBtn.disabled = true;
+            
+            // Simulate form submission (replace with actual form handling)
+            setTimeout(() => {
+                // Show success message
+                document.getElementById('form-success').style.display = 'block';
+                document.getElementById('form-error').style.display = 'none';
+                
+                // Reset form
+                this.reset();
+                
+                // Reset button
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+                
+                // Hide success message after 5 seconds
+                setTimeout(() => {
+                    document.getElementById('form-success').style.display = 'none';
+                }, 5000);
+                
+                console.log('Contact form submitted:', data);
+            }, 2000);
+        });
+        
+        // Initialize animations when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Trigger animations for elements in view
+            const animateElements = document.querySelectorAll('.animate-on-scroll');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            });
+            
+            animateElements.forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>

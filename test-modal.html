@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Modal</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 10px;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            max-width: 500px;
+            width: 90%;
+        }
+    </style>
+</head>
+<body>
+    <h1>Test Modal Functionality</h1>
+    
+    <button id="open-modal-btn">Open Modal</button>
+    
+    <div id="test-modal" class="modal">
+        <div class="modal-content">
+            <h2>Test Modal</h2>
+            <p>This is a test modal to verify that the modal functionality works.</p>
+            <button id="close-modal-btn">Close Modal</button>
+        </div>
+    </div>
+    
+    <script>
+        // Wait for the DOM to be fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded');
+            
+            // Get the modal and buttons
+            const modal = document.getElementById('test-modal');
+            const openBtn = document.getElementById('open-modal-btn');
+            const closeBtn = document.getElementById('close-modal-btn');
+            
+            console.log('Modal:', modal);
+            console.log('Open button:', openBtn);
+            console.log('Close button:', closeBtn);
+            
+            // Add event listener to open the modal
+            openBtn.addEventListener('click', function() {
+                console.log('Open button clicked');
+                modal.classList.add('active');
+                console.log('Modal should be visible now');
+            });
+            
+            // Add event listener to close the modal
+            closeBtn.addEventListener('click', function() {
+                console.log('Close button clicked');
+                modal.classList.remove('active');
+                console.log('Modal should be hidden now');
+            });
+            
+            // Close the modal when clicking outside of it
+            modal.addEventListener('click', function(event) {
+                if (event.target === modal) {
+                    console.log('Clicked outside modal');
+                    modal.classList.remove('active');
+                    console.log('Modal should be hidden now');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
