@@ -3,7 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <base href="/Zion-Embassy/">
+    <script>
+        // Detect if we're on GitHub Pages or local
+        var isGitHubPages = window.location.hostname.includes('github.io');
+        var basePath = isGitHubPages ? '/Zion-Embassy/' : '/';
+        document.write('<base href="' + basePath + '">');
+    </script>
     <title>About Us - The Ekklesia Zion Embassy</title>
     <meta name="description" content="Learn about The Ekklesia Zion Embassy's history, mission, vision, beliefs, and leadership. Discover our journey of faith in Gezina.">
     
@@ -97,9 +102,9 @@
                 <div class="logo-icon">
                     <img src="logo.jpg" alt="The Ekklesia Zion Embassy Logo" class="logo-image">
                 </div>
-                <div class="logo-text">
-                    <h1 class="heading-font">The Ekklesia</h1>
-                    <p>Zion Embassy</p>
+                <div class="logo-text" style="line-height: 1.2; display: flex; flex-direction: column;">
+                    <h1 class="heading-font" style="margin-bottom: 0;">The Ekklesia</h1>
+                    <p style="margin-top: 0;">Zion Embassy</p>
                 </div>
             </a>
             
@@ -452,9 +457,9 @@
                         <div style="width: 2.5rem; height: 2.5rem; background-color: var(--secondary); border-radius: 50%; display: flex; align-items: center; justify-content: center; overflow: hidden;">
                             <img src="logo.jpg" alt="The Ekklesia Zion Embassy Logo" style="width: 100%; height: 100%; object-fit: cover;">
                         </div>
-                        <div>
-                            <h3 style="font-weight: bold;">The Ekklesia</h3>
-                            <p style="font-size: 0.75rem; color: var(--secondary);">Zion Embassy</p>
+                        <div style="line-height: 1;">
+                            <h3 style="font-weight: bold; margin-bottom: 0;">The Ekklesia</h3>
+                            <p style="font-size: 0.75rem; color: var(--secondary); margin-top: 0;">Zion Embassy</p>
                         </div>
                     </div>
                     <p style="margin-bottom: 1rem;">A Pentecostal church in Gezina dedicated to creating the kingdom family of God's chosen people and manifesting His glory.</p>

@@ -1,9 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <base href="/Zion-Embassy/">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        // Detect if we're on GitHub Pages or local
+        var isGitHubPages = window.location.hostname.includes('github.io');
+        var basePath = isGitHubPages ? '/Zion-Embassy/' : '/';
+        document.write('<base href="' + basePath + '">');
+    </script>
     <title>Admin Dashboard - The Ekklesia Zion Embassy</title>
     <meta name="description" content="Admin dashboard for managing church events, projects, and content.">
     
