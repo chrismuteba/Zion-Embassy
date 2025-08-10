@@ -73,8 +73,14 @@ class ChurchWebsite {
         }
 
         if (mobileToggle && navMenu) {
-            mobileToggle.addEventListener('click', (e) => {
+            // Remove any existing event listeners to prevent multiple bindings
+            const newMobileToggle = mobileToggle.cloneNode(true);
+            mobileToggle.parentNode.replaceChild(newMobileToggle, mobileToggle);
+            
+            // Add event listener to the new element
+            newMobileToggle.addEventListener('click', (e) => {
                 e.stopPropagation();
+                e.preventDefault(); // Prevent default to ensure click is captured
                 this.toggleMobileMenu();
             });
 
@@ -83,16 +89,21 @@ class ChurchWebsite {
                 this.closeMobileMenu();
             });
 
-            // Close menu when clicking on links
+            // Improved dropdown handling for mobile
             navLinks.forEach(link => {
                 link.addEventListener('click', (e) => {
+                    const navItem = link.closest('.nav-item');
+                    
                     // Check if it's a dropdown toggle in mobile
-                    if (window.innerWidth <= 768 && link.closest('.nav-item').querySelector('.dropdown-menu')) {
-                        const navItem = link.closest('.nav-item');
+                    if (window.innerWidth <= 768 && navItem && navItem.querySelector('.dropdown-menu')) {
                         const hasDropdown = navItem.querySelector('.dropdown-menu');
+                        const href = link.getAttribute('href') || '';
                         
-                        if (hasDropdown && !link.getAttribute('href').startsWith('#')) {
+                        if (hasDropdown && (href === '#' || href === '')) {
                             e.preventDefault();
+                            e.stopPropagation();
+                            
+                            // Toggle dropdown active state
                             navItem.classList.toggle('dropdown-active');
                             
                             // Close other dropdowns
@@ -133,21 +144,25 @@ class ChurchWebsite {
         const navMenu = document.querySelector('.nav-menu');
         const overlay = document.querySelector('.mobile-menu-overlay');
         
-        const isActive = navMenu.classList.contains('active');
+        // Force immediate state check instead of relying on class
+        const isActive = navMenu && navMenu.classList.contains('active');
         
         if (isActive) {
             this.closeMobileMenu();
         } else {
-            navMenu.classList.add('active');
-            mobileToggle.classList.add('active');
-            overlay.classList.add('active');
-            document.body.style.overflow = 'hidden';
-            
-            // Toggle hamburger icon
-            const icon = mobileToggle.querySelector('i');
-            if (icon) {
-                icon.classList.remove('fa-bars');
-                icon.classList.add('fa-times');
+            // Ensure elements exist before manipulating
+            if (navMenu && mobileToggle && overlay) {
+                navMenu.classList.add('active');
+                mobileToggle.classList.add('active');
+                overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+                
+                // Toggle hamburger icon
+                const icon = mobileToggle.querySelector('i');
+                if (icon) {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-times');
+                }
             }
         }
     }
