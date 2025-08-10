@@ -269,11 +269,15 @@ body {
         height: 100vh;
         background: var(--primary);
         flex-direction: column;
-        padding: 5rem 2rem 2rem;
+        padding: 5rem 1rem 1rem;
         box-shadow: -4px 0 15px rgba(0, 0, 0, 0.2);
         z-index: 1000;
         transition: right 0.3s ease;
         overflow-y: auto;
+        -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+        max-height: 100vh; /* Ensure it doesn't exceed viewport height */
+        display: flex;
+        flex-direction: column;
     }
 
     .nav-menu.active {
@@ -282,24 +286,31 @@ body {
 
     .mobile-menu-toggle {
         display: block;
+        z-index: 1002; /* Ensure it's above the menu */
     }
 
     .nav-item {
-        margin: 0.75rem 0;
+        margin: 0.5rem 0;
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        padding-bottom: 0.75rem;
+        padding-bottom: 0.5rem;
+        width: 100%;
     }
 
     .nav-item:last-child {
         border-bottom: none;
+        margin-top: auto; /* Push the Give button to the bottom */
+        padding-top: 1rem;
+        position: sticky;
+        bottom: 1rem;
     }
 
     .nav-link {
-        font-size: 1.1rem;
-        padding: 0.75rem 0;
+        font-size: 1rem;
+        padding: 0.5rem 0;
         display: block;
         border-radius: 8px;
         transition: all 0.3s ease;
+        width: 100%;
     }
 
     .nav-link:hover {
@@ -320,6 +331,8 @@ body {
         opacity: 1;
         visibility: visible;
         transform: none;
+        max-height: 200px;
+        overflow-y: auto;
     }
 
     .nav-item.dropdown-active .dropdown-menu {
@@ -333,6 +346,7 @@ body {
         margin: 0.25rem 0;
         border-radius: 6px;
         transition: all 0.3s ease;
+        display: block;
     }
 
     .dropdown-link:hover {
@@ -367,11 +381,19 @@ body {
         padding: 0.5rem;
         border-radius: 50%;
         transition: all 0.3s ease;
+        z-index: 1001;
     }
 
     .mobile-menu-close:hover {
         background: rgba(255, 255, 255, 0.1);
         transform: rotate(90deg);
+    }
+    
+    /* Ensure mobile menu overlay covers the entire screen */
+    .mobile-menu-overlay.active {
+        display: block;
+        opacity: 1;
+        z-index: 999;
     }
 }
 
