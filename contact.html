@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="/Zion-Embassy/">
     <title>Contact Us - The Ekklesia Zion Embassy</title>
     <meta name="description" content="Get in touch with The Ekklesia Zion Embassy. Find our location, service times, contact information, and send us a message.">
     
@@ -742,75 +743,4 @@
             
             <div class="footer-bottom">
                 <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
-                    <p>&copy; 2024 The Ekklesia Zion Embassy. All rights reserved.</p>
-                    <div style="display: flex; gap: 1.5rem; margin-top: 1rem;">
-                        <a href="#" style="color: white; text-decoration: none; transition: color 0.3s ease;" onmouseover="this.style.color='var(--secondary)'" onmouseout="this.style.color='white'">Privacy Policy</a>
-                        <a href="#" style="color: white; text-decoration: none; transition: color 0.3s ease;" onmouseover="this.style.color='var(--secondary)'" onmouseout="this.style.color='white'">Terms of Use</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <!-- JavaScript -->
-    <script src="js/main.js"></script>
-    <script>
-        // Contact Form Handling
-        document.getElementById('contact-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const formData = new FormData(this);
-            const data = Object.fromEntries(formData);
-            
-            // Show loading state
-            const submitBtn = this.querySelector('button[type="submit"]');
-            const originalText = submitBtn.innerHTML;
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Sending...';
-            submitBtn.disabled = true;
-            
-            // Simulate form submission (replace with actual form handling)
-            setTimeout(() => {
-                // Show success message
-                document.getElementById('form-success').style.display = 'block';
-                document.getElementById('form-error').style.display = 'none';
-                
-                // Reset form
-                this.reset();
-                
-                // Reset button
-                submitBtn.innerHTML = originalText;
-                submitBtn.disabled = false;
-                
-                // Hide success message after 5 seconds
-                setTimeout(() => {
-                    document.getElementById('form-success').style.display = 'none';
-                }, 5000);
-                
-                console.log('Contact form submitted:', data);
-            }, 2000);
-        });
-        
-        // Initialize animations when page loads
-        document.addEventListener('DOMContentLoaded', function() {
-            // Trigger animations for elements in view
-            const animateElements = document.querySelectorAll('.animate-on-scroll');
-            
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
-                    }
-                });
-            });
-            
-            animateElements.forEach(el => {
-                el.style.opacity = '0';
-                el.style.transform = 'translateY(20px)';
-                el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-                observer.observe(el);
-            });
-        });
-    </script>
-</body>
-</html>
+                    <p>&copy;
