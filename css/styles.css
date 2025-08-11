@@ -269,7 +269,7 @@ body {
         height: 100vh;
         background: var(--primary);
         flex-direction: column;
-        padding: 5rem 1rem 1rem;
+        padding: 4rem 1rem 1rem; /* Reduced top padding */
         box-shadow: -4px 0 15px rgba(0, 0, 0, 0.2);
         z-index: 1000;
         transition: right 0.3s ease;
@@ -278,6 +278,7 @@ body {
         max-height: 100vh; /* Ensure it doesn't exceed viewport height */
         display: flex;
         flex-direction: column;
+        justify-content: flex-start; /* Start items from the top */
     }
 
     .nav-menu.active {
@@ -290,23 +291,23 @@ body {
     }
 
     .nav-item {
-        margin: 0.25rem 0;
+        margin: 0.15rem 0; /* Further reduced margin */
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        padding-bottom: 0.25rem;
+        padding-bottom: 0.15rem; /* Further reduced padding */
         width: 100%;
     }
 
     .nav-item:last-child {
         border-bottom: none;
-        margin-top: 0.5rem; /* Reduced space before Give button */
-        padding-top: 0.5rem;
-        position: sticky;
-        bottom: 0.5rem;
+        margin-top: 0.25rem; /* Further reduced space before Give button */
+        padding-top: 0.25rem;
+        position: relative; /* Changed from sticky to ensure it's always in the flow */
+        bottom: auto; /* Remove bottom positioning */
     }
 
     .nav-link {
-        font-size: 1rem;
-        padding: 0.3rem 0;
+        font-size: 0.95rem; /* Slightly smaller font */
+        padding: 0.2rem 0; /* Further reduced padding */
         display: block;
         border-radius: 8px;
         transition: all 0.3s ease;
@@ -315,23 +316,23 @@ body {
 
     .nav-link:hover {
         background: rgba(255, 255, 255, 0.1);
-        padding-left: 1rem;
-        transform: translateX(5px);
+        padding-left: 0.5rem; /* Reduced hover padding */
+        transform: translateX(3px); /* Reduced hover transform */
     }
 
     .dropdown-menu {
         position: static;
         display: none;
         background: rgba(255, 255, 255, 0.1);
-        margin: 0.25rem 0 0 0.5rem;
+        margin: 0.15rem 0 0 0.3rem; /* Further reduced margins */
         border-radius: 8px;
-        padding: 0.25rem;
-        border-left: 3px solid var(--secondary);
+        padding: 0.15rem; /* Further reduced padding */
+        border-left: 2px solid var(--secondary); /* Thinner border */
         box-shadow: none;
         opacity: 1;
         visibility: visible;
         transform: none;
-        max-height: 150px;
+        max-height: 120px; /* Reduced max height */
         overflow-y: auto;
     }
 
@@ -342,17 +343,17 @@ body {
 
     .dropdown-link {
         color: white;
-        padding: 0.3rem 0.5rem;
-        margin: 0.15rem 0;
+        padding: 0.2rem 0.3rem; /* Further reduced padding */
+        margin: 0.1rem 0; /* Further reduced margin */
         border-radius: 6px;
         transition: all 0.3s ease;
         display: block;
-        font-size: 0.9rem;
+        font-size: 0.85rem; /* Smaller font size */
     }
 
     .dropdown-link:hover {
         background: rgba(255, 255, 255, 0.1);
-        transform: translateX(5px);
+        transform: translateX(3px); /* Reduced hover transform */
     }
 
     /* Mobile search */
